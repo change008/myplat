@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DD6504ED-559D-4817-B85F-FF2D789F0870}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>myplat.Util</RootNamespace>
+    <AssemblyName>myplat.Util</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ChnCharInfo">
+      <HintPath>..\..\..\Assembly\Tiexue.Mobile.Assembly\ChnCharInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\..\Assembly\Tiexue.Mobile.Assembly\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Assembly\Tiexue.Mobile.Assembly\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI">
+      <HintPath>..\..\..\Assembly\Tiexue.Mobile.Assembly\NPOI\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>..\..\..\Assembly\Tiexue.Mobile.Assembly\NPOI\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>..\..\..\Assembly\Tiexue.Mobile.Assembly\NPOI\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>..\..\..\Assembly\Tiexue.Mobile.Assembly\NPOI\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CNSpellTranslator.cs" />
+    <Compile Include="CommonUtil.cs" />
+    <Compile Include="DateExtension.cs" />
+    <Compile Include="DictionaryEntity.cs" />
+    <Compile Include="FFmpegHelper.cs" />
+    <Compile Include="HTMLUtil.cs" />
+    <Compile Include="HttpHelper.cs" />
+    <Compile Include="LocalFileIO.cs" />
+    <Compile Include="NetUtil.cs" />
+    <Compile Include="NPOIHelper.cs" />
+    <Compile Include="RegexUtil.cs" />
+    <Compile Include="DateTimeUtil.cs" />
+    <Compile Include="Definition.cs" />
+    <Compile Include="DESEncrypt.cs" />
+    <Compile Include="ImgUtil.cs" />
+    <Compile Include="JsonObject.cs" />
+    <Compile Include="MD5Encrypt.cs" />
+    <Compile Include="ObjectExtension.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerializationHelper.cs" />
+    <Compile Include="SimHash\IAnalyser.cs" />
+    <Compile Include="SimHash\ITokeniser.cs" />
+    <Compile Include="SimHash\SimHashAnalyser.cs" />
+    <Compile Include="SimHash\Tokeniser.cs" />
+    <Compile Include="StreamExtensions.cs" />
+    <Compile Include="SymmetricEncrypt.cs" />
+    <Compile Include="UnicodeUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tiexue.Mobile.TT.Entity\Tiexue.Mobile.TT.Entity.csproj">
+      <Project>{d0d1dbbd-d6be-4590-b19e-3664f7f16a33}</Project>
+      <Name>Tiexue.Mobile.TT.Entity</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
