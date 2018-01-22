@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace myplat.Cache
+namespace myplat.Dal
 {
-    public class Class1
+    public class CoreDal
     {
+        //增删改查业务逻辑
+
+
+
     }
 }

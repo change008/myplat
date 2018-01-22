@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace myplat.Dal
+namespace myplat.Biz
 {
-    public class Class1
+    public class ManagerBiz
     {
     }
 }
