@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myplat.UIWap", "myplat.UIWa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myplat.UIManage", "myplat.UIManage\myplat.UIManage.csproj", "{8E45BAA3-DD0D-40EC-A86A-CF8DD11A1D5B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myplat.Test", "myplat.Test\myplat.Test.csproj", "{CA13B7D6-F823-4134-A672-F90062D1E9A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{8E45BAA3-DD0D-40EC-A86A-CF8DD11A1D5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E45BAA3-DD0D-40EC-A86A-CF8DD11A1D5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E45BAA3-DD0D-40EC-A86A-CF8DD11A1D5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA13B7D6-F823-4134-A672-F90062D1E9A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA13B7D6-F823-4134-A672-F90062D1E9A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA13B7D6-F823-4134-A672-F90062D1E9A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA13B7D6-F823-4134-A672-F90062D1E9A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

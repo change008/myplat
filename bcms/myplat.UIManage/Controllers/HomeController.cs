@@ -1,4 +1,5 @@
-﻿using System;
+﻿using myplat.Biz;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,23 +9,20 @@ namespace myplat.UIManage.Controllers
 {
     public class HomeController : Controller
     {
+        //管理
+        private readonly static ManagerBiz _ManagerBiz = new ManagerBiz();
+
         public ActionResult Index()
         {
+            if (!_ManagerBiz.VerificationAdmin())
+            {
+                Response.Redirect("/Account/Login");
+            }
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
 
-            return View();
-        }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
 
-            return View();
-        }
     }
 }

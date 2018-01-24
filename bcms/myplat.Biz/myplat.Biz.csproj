@@ -30,8 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Assembly\Tiexue.Mobile.Assembly\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,6 +49,21 @@
     <Compile Include="CoreBiz.cs" />
     <Compile Include="ManagerBiz.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserAuthCookie.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\myplat.Dal\myplat.Dal.csproj">
+      <Project>{573ba8ac-a8a3-4df6-8a04-3f437b73b3c4}</Project>
+      <Name>myplat.Dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\myplat.Entity\myplat.Entity.csproj">
+      <Project>{b45d0b79-390d-4348-80b2-329f1ed1e3e0}</Project>
+      <Name>myplat.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\myplat.Util\myplat.Util.csproj">
+      <Project>{5f861e94-52d6-45f2-896e-1aa1af85fcb3}</Project>
+      <Name>myplat.Util</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

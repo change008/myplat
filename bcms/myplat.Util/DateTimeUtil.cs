@@ -6,8 +6,18 @@ using System.Threading.Tasks;
 
 namespace myplat.Util
 {
-    public class DateTimeUtil
+    public static class DateTimeUtil
     {
+        public static long GetTimeStamp()
+        {
+            return GetTimeStamp(DateTime.Now);
+        }
+
+        public static long GetTimeStamp(DateTime dt)
+        {
+            long nowtime = Convert.ToInt64((dt.ToUniversalTime().Ticks - 621355968000000000) / 10000000);
+            return Math.Max(nowtime, 0);
+        }
 
         public static DateTime FormatDateTime(long timeStamp)
         {
@@ -17,6 +27,7 @@ namespace myplat.Util
 
             return dtStart.Add(toNow);
         }
+
         public static string FormatDateTime(long timeStamp, string format)
         {
             return FormatDateTime(timeStamp).ToString(format);
@@ -40,13 +51,13 @@ namespace myplat.Util
             int min = ts.Minutes;
             int sec = ts.Seconds;
 
-            if(day == 1)
+            if (day == 1)
             {
-                result =  "昨天";
+                result = "昨天";
             }
-            else if(day == 2)
+            else if (day == 2)
             {
-                result =  "前天";
+                result = "前天";
             }
             else if (day > 2 && day < 5)
             {
@@ -72,16 +83,7 @@ namespace myplat.Util
             return result;
 
         }
-        public static long GetTimeStamp()
-        {
-            return GetTimeStamp(DateTime.Now);
-        }
-
-        public static long GetTimeStamp(DateTime dt)
-        {
-            long nowtime = Convert.ToInt64((dt.ToUniversalTime().Ticks - 621355968000000000) / 10000000);
-            return Math.Max(nowtime,0);
-        }
+       
 
 
         public static string GetNameOfWeek(DateTime dt)

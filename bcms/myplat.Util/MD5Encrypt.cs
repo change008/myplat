@@ -92,10 +92,5 @@ namespace myplat.Util
             return OutString.ToLower();
         }
 
-        // code 为加密位数，16和32   
-        public static string Md5(string str, int code = 32)
-        {
-            return "";
-        }
     }
 }

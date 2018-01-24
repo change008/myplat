@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <style>
+        .left{
+
+        }
+        .main{
+
+        }
+    </style>
+    <script type="text/javascript" src="~/Content/bootstrap3/js/base-all-v2.js"></script>
+    <script type="text/javascript" src="~/Content/bootstrap3/js/bootstrap3.0.3.js" charset="utf-8"></script>
+    <script type="text/javascript" src="~/Content/ueditor/third-party/tablesorter/jquery.tablesorter.js"></script>
+</head>
+<body >
+    <div class="left" style="width:25%; float:left;">
+        @*<div><h1>左边</h1></div>
+        <div style="background-color:#808080; width:3px;height:100%;float:right; position:absolute"></div>*@
+    </div>
+
+    <div id="main" class="main" style="width:75%;">
+        @RenderBody();
+    </div>
+
+</body>
+</html>

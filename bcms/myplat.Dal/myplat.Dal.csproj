@@ -53,7 +53,17 @@
     <Compile Include="Util\CommandInfo.cs" />
     <Compile Include="Util\ConnConfig.cs" />
     <Compile Include="Util\DBFactory.cs" />
-    <Compile Include="Util\DbHelperSQLTT.cs" />
+    <Compile Include="Util\DbHelperSQLMain.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\myplat.Entity\myplat.Entity.csproj">
+      <Project>{b45d0b79-390d-4348-80b2-329f1ed1e3e0}</Project>
+      <Name>myplat.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\myplat.Util\myplat.Util.csproj">
+      <Project>{5f861e94-52d6-45f2-896e-1aa1af85fcb3}</Project>
+      <Name>myplat.Util</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

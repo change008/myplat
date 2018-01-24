@@ -12,20 +12,20 @@ namespace myplat.Dal
         /// <summary>
         /// 综合数据库
         /// </summary>
-        private static DefaultDataFacade dbTT;
+        private static DefaultDataFacade dbMain;
 
         /// <summary>
-        /// 获取连接字符串--CO数据库
+        /// 获取连接字符串--Main数据库
         /// </summary>
-        public static DefaultDataFacade DbTT
+        public static DefaultDataFacade DbMain
         {
             get
             {
-                if (dbTT == null)
+                if (dbMain == null)
                 {
-                    dbTT = new DefaultDataFacade(ConnConfig.ConnStrTT);
+                    dbMain = new DefaultDataFacade(ConnConfig.ConnStrMain);
                 }
-                return dbTT;
+                return dbMain;
             }
         }
 

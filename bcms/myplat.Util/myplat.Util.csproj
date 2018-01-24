@@ -71,7 +71,6 @@
     <Compile Include="CommonUtil.cs" />
     <Compile Include="DateExtension.cs" />
     <Compile Include="DateTimeUtil.cs" />
-    <Compile Include="Definition.cs" />
     <Compile Include="DESEncrypt.cs" />
     <Compile Include="FfmpegHelper.cs" />
     <Compile Include="HTMLUtil.cs" />
@@ -93,9 +92,7 @@
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="SymmetricEncrypt.cs" />
     <Compile Include="UnicodeUtil.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Tiexue.Mobile.TT.Util.csproj" />
+    <Compile Include="XMLHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

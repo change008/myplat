@@ -67,7 +67,7 @@ namespace myplat.Entity
         /// <summary>
         /// DingCount
         /// </summary>		
-        public string DingCount
+        public int DingCount
         {
             get;
             set;
@@ -88,6 +88,56 @@ namespace myplat.Entity
             get;
             set;
         }
+
+        /// <summary>
+        /// 内部访问链接
+        /// </summary>
+        public string FrameLink
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// 跳转链接
+        /// </summary>
+        public string RedirectLink
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// 数据类型
+        /// </summary>
+        public int Type
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// 类型-普通类型
+        /// </summary>
+        public const int CoreType_Normal = 1;
+
+        /// <summary>
+        /// 数据状态，1：正常， 2：已删除
+        /// </summary>
+        public int Status
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// 状态-正常
+        /// </summary>
+        public const int CoreStatus_Normal = 1;
+        /// <summary>
+        /// 已删除
+        /// </summary>
+        public const int CoreStatus_Del = 2;
+
         /// <summary>
         /// CreateTime
         /// </summary>		
