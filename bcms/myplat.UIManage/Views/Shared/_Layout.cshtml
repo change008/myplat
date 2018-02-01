@@ -66,7 +66,7 @@
         <div style="width: 400px; height: 20px; float: right; font-size: 14px; margin-bottom: 0px; margin-top: -40px; color: orangered; background-color: #fff; border: 0px none;" class="alert  alert-error">
             @*<span class="label label-important">警告!  非运营人员请不要随意修改，您的所有操作将被系统记录.  </span>*@
             &nbsp;&nbsp;&nbsp;&nbsp;
-            @Html.ActionLink("修改密码", "ChangeIdentity", "AuthManagement")
+            @Html.ActionLink("修改密码", "ChangePwd", "Manager")
             &nbsp;&nbsp;&nbsp;&nbsp;
             @Html.ActionLink("退出", "LoginOut", "Account")
         </div>
@@ -76,13 +76,13 @@
             <div style="position: relative; padding:10px; width: 15%; float: left; margin: 10px; margin-top:9px; background-color:#f6f5f5">
                 <!--Sidebar content-->
                 <ul id="ur-nav" class="nav nav-list">
-                    @if (Request.Url.LocalPath.ToLower().StartsWith("/Channel"))
+                    @if (Request.Url.LocalPath.ToLower().StartsWith("/manager"))
                     {
-                        <li class="active">@Html.ActionLink("频道管理", "Index", "Channel")</li>
+                        <li class="active">@Html.ActionLink("账户管理", "Index", "Manager")</li>
                     }
                     else
                     {
-                        <li>@Html.ActionLink("频道管理", "Index", "Channel")</li>
+                        <li>@Html.ActionLink("账户管理", "Index", "Manager")</li>
                     }
                     @if (Request.Url.LocalPath.ToLower().StartsWith("/Platform"))
                     {

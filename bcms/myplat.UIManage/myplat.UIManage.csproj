@@ -547,6 +547,9 @@
     <Content Include="Content\ueditor\third-party\video-js\font\vjs.ttf" />
     <Content Include="Content\ueditor\third-party\video-js\font\vjs.woff" />
     <Content Include="Scripts\echarts-all.js" />
+    <Content Include="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -582,7 +585,7 @@
     <Content Include="Views\Shared\_Login.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Manager\ChangeIdentity.cshtml" />
+    <Content Include="Views\Manager\ChangePwd.cshtml" />
     <Content Include="Views\Manager\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

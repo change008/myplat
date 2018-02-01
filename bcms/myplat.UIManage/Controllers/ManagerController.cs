@@ -69,6 +69,8 @@ namespace myplat.UIManage.Controllers
                         }
                         model.Password =pwd;
                         model.CreateTime = createTime;
+                        model.Limit = "";
+                        model.Des = "";
                         _ManagerBiz.Add(model);
                         return Json(new { result = true, msg = "" });
 
@@ -157,7 +159,11 @@ namespace myplat.UIManage.Controllers
             }
         }
 
-        public ActionResult ChangeIdentity()
+        /// <summary>
+        /// 修改密码页面
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ChangePwd()
         {
             return View();
         }
@@ -169,7 +175,7 @@ namespace myplat.UIManage.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult ChangeIdentity(FormCollection collection)
+        public ActionResult ChangePwd(FormCollection collection)
         {
             string name = collection["name"].ToString();
             string pwd = collection["old_pwd"].ToString();

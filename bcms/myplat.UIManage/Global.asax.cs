@@ -12,6 +12,9 @@ namespace myplat.UIManage
     {
         protected void Application_Start()
         {
+
+            log4net.Config.XmlConfigurator.Configure(new System.IO.FileInfo(Server.MapPath("~/bin/log4net.config")));
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

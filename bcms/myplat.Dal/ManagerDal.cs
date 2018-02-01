@@ -26,7 +26,7 @@ namespace myplat.Dal
             SqlParameter[] parameters = {
                         new SqlParameter("@Name", SqlDbType.NVarChar,50) ,
                         new SqlParameter("@Limit", SqlDbType.NVarChar,2048) ,
-                        new SqlParameter("@Password", SqlDbType.NChar,50) ,
+                        new SqlParameter("@Password", SqlDbType.NVarChar,50) ,
                         new SqlParameter("@Des", SqlDbType.NVarChar,2048) ,
                         new SqlParameter("@CreateTime", SqlDbType.DateTime)
 
@@ -68,7 +68,7 @@ namespace myplat.Dal
                         new SqlParameter("@Id", SqlDbType.Int,4) ,
                         new SqlParameter("@Name", SqlDbType.NVarChar,50) ,
                         new SqlParameter("@Limit", SqlDbType.NVarChar,2048) ,
-                        new SqlParameter("@Password", SqlDbType.NChar,50) ,
+                        new SqlParameter("@Password", SqlDbType.NVarChar,50) ,
                         new SqlParameter("@Des", SqlDbType.NVarChar,2048) ,
                         new SqlParameter("@CreateTime", SqlDbType.DateTime)
 
@@ -94,12 +94,12 @@ namespace myplat.Dal
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("update Manager set ");
-            strSql.Append(" Password = @Password , ");
+            strSql.Append(" Password = @Password  ");
             strSql.Append(" where Id=@Id ");
 
             SqlParameter[] parameters = {
                         new SqlParameter("@Id", SqlDbType.Int,4) ,
-                        new SqlParameter("@Password", SqlDbType.NChar,50) 
+                        new SqlParameter("@Password", SqlDbType.NVarChar,50) 
             };
 
             parameters[0].Value = id;
