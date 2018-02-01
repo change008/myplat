@@ -13,9 +13,17 @@ namespace myplat.Test
         static void Main(string[] args)
         {
 
-            CoreTestAdd();
+            //CoreTestAdd();
+
+            PwdCreate();
+        }
 
 
+        static void PwdCreate()
+        {
+            string pwd = "borui2017fa";
+            string pwdmd5 = Util.MD5Encrypt.Md5Hex(pwd);
+            string xyz = pwdmd5;
         }
 
         static void CoreTestAdd()

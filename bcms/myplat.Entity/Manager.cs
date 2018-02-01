@@ -56,6 +56,10 @@ namespace myplat.Entity
             get;
             set;
         }
-
+        public string CreateTimeStr
+        {
+            get;
+            set;
+        }
     }
 }

@@ -1,0 +1,103 @@
+﻿@model myplat.UIManage.Models.LoginModel
+
+@{
+    ViewBag.Title = "logoin";
+    Layout = "~/Views/Shared/_Login.cshtml";
+
+}
+
+<div id="top_page">
+
+</div>
+<div id="container" class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title" style="margin: 0 auto">Login Page</h3>
+                </div>
+                <div class="panel-body">
+                    <form role="form" action="/Account/Login" method="post">
+                        <fieldset>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="登录名" id="UserName" name="UserName" type="text" autofocus>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="密码" id="Password" name="Password" type="password" value="">
+                            </div>
+                            @*<input type="submit" value="登 录" style="background-color: #5cb85c;border-color: #4cae4c;" onclick="login()" class="btn btn-lg btn-success btn-block">*@
+                            <a href="javascript:login();" class="btn btn-lg btn-success btn-block">登  录</a>
+                            <br>
+                            @if (Model != null && Model.RememberMe == false)
+                            {
+                                <div class="alert alert-warning">
+                                    <a href="javascript:void(0);" class="close">
+                                        &times;
+                                    </a>
+                                    <span class="warning-text">
+                                        用户名或密码错误！
+                                    </span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="alert alert-warning" hidden="hidden">
+                                    <a href="javascript:void(0);" class="close">
+                                        &times;
+                                    </a>
+                                    <span class="warning-text">
+
+                                    </span>
+                                </div>
+                            }
+                        </fieldset>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function displaySize(width, height) {
+        this.Width = width;
+        this.Height = height;
+    }
+
+    function getDisplaySize() {
+        return new displaySize($(window).width(), $(window).height());
+    }
+    var currentDisplaySize = getDisplaySize();
+    var lineHeight = currentDisplaySize.Height;
+    var lineWidth = currentDisplaySize.Width;
+    $(function () {
+        var topwidth = (lineHeight / 2 - ($("#container").height() / 2) - 30);
+
+        $("#top_page").height(topwidth);
+    });
+
+    $(".close").bind("click", function () {
+        $(".alert").hide();
+    });
+    function login() {
+        if ($("#UserName").val() == "") {
+            $(".warning-text").html("请输入用户名");
+            $(".alert").show();
+        } else if ($("#Password").val() == "") {
+            $(".warning-text").html("请输入密码");
+            $(".alert").show();
+        } else {
+            $("form").submit();
+        }
+    }
+    //回车提交事件
+    $("body").keydown(function () {
+        if (event.keyCode == "13") {//keyCode=13是回车键
+            login();
+        }
+    });
+
+</script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

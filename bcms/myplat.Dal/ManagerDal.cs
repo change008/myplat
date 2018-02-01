@@ -130,6 +130,15 @@ namespace myplat.Dal
             Manager model = DBFactory.DbMain.Single<Manager>("select * from Manager(nolock) where Id = @Id", new SqlParameter("Id", id));
             return model;
         }
+        /// <summary>
+        /// list
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Manager> GetList()
+        {
+            string sqlStr = "select * from Manager order by CreateTime desc";
+            return DBFactory.DbMain.Select<Manager>(sqlStr);
+        }
 
         /// <summary>
         /// 根据名称查询数据

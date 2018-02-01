@@ -80,20 +80,22 @@ namespace myplat.Biz
             return dal.UpdatePwd(id, pwd1) == 1;
         }
 
+
+        /// <summary>
+        /// 所有用户列表
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Manager> GetList()
+        {
+            return dal.GetList();
+        }
+
         #endregion
 
         /// <summary>
         /// 用户cookie管理
         /// </summary>
         private static readonly UserAuthCookie _userCookie = new UserAuthCookie();
-
-        /// <summary>
-        /// cookiename
-        /// </summary>
-        public static string _CookieName = ConfigurationManager.AppSettings["CookieName"];
-
-        //locker
-        private static object lockHelper = new object();
 
         /// <summary>
         /// log4net
@@ -111,9 +113,9 @@ namespace myplat.Biz
         {
             Manager admin = GetModelByName(name);
             string pwd = MD5Encrypt.Md5Hex(password);
-            if (admin != null && admin.Password.Equals(pwd))
+            if (admin != null && admin.Password == pwd)
             {
-                _userCookie.SignIn(_CookieName, name, admin.Id);
+                //_userCookie.SignIn(_CookieName, name, admin.Id);
                 Id = admin.Id;
                 return admin;
             }
@@ -128,11 +130,11 @@ namespace myplat.Biz
         /// 验证管理员权限
         /// </summary>
         /// <returns>true|false</returns>
-        public bool VerificationAdmin()
+        public bool VerificationAdmin(string cookieName)
         {
             try
             {
-                int userID = _userCookie.GetUserID(_CookieName);
+                int userID = _userCookie.GetUserID(cookieName);
                 if (userID <= 0) return false;
                 Manager admin = Get(userID);
                 if (admin != null)

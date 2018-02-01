@@ -1,0 +1,230 @@
+﻿@using myplat.Entity
+@using myplat.Util;
+@model IEnumerable<Manager>
+@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+    #CurrentProductIdDiv input, #CurrentProductIdDiv .tdid, .tablist input, .tablist .tdid {
+        display: none;
+    }
+
+    .tablist table {
+        border-bottom: 1px #ccc solid;
+    }
+
+    .aa td {
+        padding: 0 10px;
+    }
+</style>
+
+<div id="category-container">
+    <div style="border-bottom: 1px #ccc solid; padding-bottom:10px; margin-bottom:30px;">
+        <button type="button" class="btn btn-success" onclick="add()">添加</button>
+    </div>
+
+    <table class="table table-hover" style="border:solid 1px #cee2f7;">
+        <thead>
+            <tr style="background:#cee2f7">
+                <th>用户名</th>
+                <th>创建时间</th>
+                <th>编辑</th>
+                <th>删除</th>
+                <th>重置密码(123)</th>
+            </tr>
+        </thead>
+        @if (Model != null && Model.Count() > 0)
+        {
+            <tbody>
+                @foreach (Manager item in Model)
+                {
+                    <tr id="@item.Id">
+                        <td>@item.Name</td>
+                        <td>@item.CreateTime</td>
+                        <td>
+                            <a class="edit" onclick="editMsg('@item.Id')">编辑</a>
+                        </td>
+                        <td>
+                            <a class="delete" id="@item.Id" onclick="deleteMsg('@item.Id')">删除</a>
+                        </td>
+                        <td>
+                            <a class="edit" onclick="Reset('@item.Id')">重置</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        }
+    </table>
+
+    <!--添加 & 编辑-->
+    <div class="modal fade" id="ModalAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width:60%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">添加</h4>
+                </div>
+                <div class="modal-body">
+                    <label id="lable_Id">Id</label>
+                    <input type="text" class="form-control" name="add_Id" id="add_Id" readonly="readonly" />
+
+                    <label id="lable_Name">用户名</label>
+                    <input type="text" class="form-control" name="add_Name" id="add_Name" />
+
+                    <label id="lable_Pwd">密码</label>
+                    <input type="password" class="form-control" name="add_Pwd" id="add_Pwd" />
+
+                    <label id="label_PwdRepeat">确认密码</label>
+                    <input type="password" class="form-control" name="add_PwdRepeat" id="add_PwdRepeat" />
+
+                    <label>创建时间</label>
+                    <input type="text" id="add_CreateTime" name="add_CreateTime" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm")" class="form-control" readonly="readonly" />
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="add_savebtn" data-loading-text="正在保存..." onclick="save()">保存</button>
+                    <input type="hidden" id="opType" name="opType" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //添加
+    function add() {
+        $('#ModalAdd').modal('show');
+        $('#opType').val(1);
+        $('#add_Id').val("");
+        $('#add_Name').val("");
+        $('#myModalLabel').text("添加");
+        $('#lable_Pwd').show();
+        $('#label_PwdRepeat').show();
+        $('#add_Pwd').show();
+        $('#add_PwdRepeat').show();
+        //var obj = window.document.getElementById('add_AuthType');
+        //obj.selectedIndex = 2;
+    }
+
+    //编辑
+    function editMsg(Id) {
+        $('#opType').val(2);
+        $('#myModalLabel').text("编辑");
+        $('#add_Id').attr('disabled', 'true');
+        $('#lable_Pwd').hide();
+        $('#label_PwdRepeat').hide();
+        $('#add_Pwd').hide();
+        $('#add_PwdRepeat').hide();
+        //填充数据
+        $.ajax({
+            url: '/Manager/Get',
+            type: 'POST',
+            data: { Id: Id },
+            dataType: 'json',
+            success: function (data) {
+                if (data) {
+                    $('#add_Id').val(data.Id);
+                    $('#add_Name').val(data.Name);
+                    $('#add_CreateTime').val(data.CreateTimeStr);
+                    $('#add_Pwd').val();
+                    $('#add_PwdRepeat').val();
+                    $('#ModalAdd').modal('show');
+                }
+            },
+            complete: function (data) {
+            }
+        });
+    }
+
+
+    //重置密码
+    function Reset(Id) {
+        //填充数据
+        $.ajax({
+            url: '/Manager/Reset',
+            type: 'POST',
+            data: { Id: Id },
+            dataType: 'json',
+            success: function (data) {
+                if (data.result) {
+                    alert("重置密码成功");
+                }
+                else {
+                    alert("重置密码失败");
+                }
+            },
+            error: function (data) {
+                alert("重置密码失败");
+            }
+        });
+    }
+
+    //保存
+    function save() {
+        var data = new FormData();
+        
+        if ($('#add_Id').val()!=""||$('#add_Pwd').val() == $('#add_PwdRepeat').val()){
+            data.append("Id", $('#add_Id').val());
+            data.append("Name", $('#add_Name').val());
+            data.append("Pwd", $('#add_Pwd').val());
+            data.append("CreateTimeStr", $('#add_CreateTime').val());
+            data.append("PageOpType", $('#opType').val());
+
+            $.ajax({
+                url: '/Manager/Edit',
+                type: 'POST',
+                contentType: false,
+                processData: false,
+                data: data,
+                beforeSend: function (data) {
+                    $('#savebtn').button('loading');
+                },
+                success: function (data) {
+                    if (data.result == true) {
+                        $('#ModalAdd').modal('hide');
+                        $('#add_Id').val('');
+                        $('#add_Name').val('');
+                        $('#add_Pwd').val('');
+                        $('#add_CreateTime').val('');
+                        window.location.reload();
+                    }
+                    else {
+                        alert(data.msg);
+                    }
+                },
+                complete: function (data) {
+                    $('#savebtn').button('reset');
+                }
+            });
+        } else {
+            alert("两次密码不一致!");
+        }
+    }
+
+    //删除
+    function deleteMsg(Id) {
+        if (confirm("确定要删除吗？")) {
+            var model = { Id: Id };
+            $.ajax({
+                url: "/Manager/Delete",
+                dataType: 'json',
+                type: 'POST',
+                data: model,
+                success: function (data) {
+                    if (data.result == true) {
+                        alert("删除成功");
+                        window.location.reload();
+                    }
+                    else {
+                        alert("删除失败," + data.Msg);
+                    }
+                }
+            });
+        } else {
+            return false;
+        }
+    }
+</script>
+

@@ -1,0 +1,72 @@
+﻿@{
+    string flag = ViewBag.flag == null ? "" : ViewBag.flag;
+}
+@{
+    <link type="text/css" rel="Stylesheet" href="~/Content/bootstrap3/css/bootstrap3.0.3.css" />
+
+    <script type="text/javascript" src="~/Content/bootstrap3/js/base-all-v2.js"></script>
+    <script type="text/javascript" src="~/Content/bootstrap3/js/bootstrap3.0.3.js" charset="utf-8"></script>
+
+    <script type="text/javascript" src="~/Content/ueditor/third-party/tablesorter/jquery.tablesorter.js"></script>
+    <link rel="stylesheet" href="~/Content/themes/blue/style.css" type="text/css" />
+}
+@Html.ValidationSummary()
+@if (string.IsNullOrEmpty(flag))
+{
+    <form id="changeIdForm" method="post">
+        <table>
+            <tr>
+                <td><span style="font-weight:bold;font-size:15px">用户名:</span></td>
+                <td><input type="text" class="form-control" name="name" id="name" /></td>
+            </tr>
+            <tr>
+                <td><span style="font-weight:bold;font-size:15px">原密码:</span></td>
+                <td><input type="password" class="form-control" name="old_pwd" id="old_pwd" /></td>
+            </tr>
+            <tr>
+                <td><span style="font-weight:bold;font-size:15px">新密码:</span></td>
+                <td><input type="password" class="form-control" name="new_pwd" id="new_pwd" /></td>
+            </tr>
+            <tr>
+                <td><span style="font-weight:bold;font-size:15px">新密码重复:</span></td>
+                <td><input type="password" class="form-control" name="rpt_pwd" id="rpt_pwd" /></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><button class="form-control" id="changeIdCard" name="changeIdCard">修改</button></td>
+            </tr>
+        </table>
+    </form>
+}
+else
+{
+    @Html.ActionLink("重新登录", "Login", "Account");
+}
+<script>
+    $(document).ready(function () {
+        $('#changeIdCard').click(function () {
+            var name = $('#name').val();
+            var oldpwd = $('#old_pwd').val();
+            var newpwd = $('#new_pwd').val();
+            var rptpwd = $('#rpt_pwd').val();
+            if (name == null || name.length <= 0) {
+                alert("请输入用户名");
+            }
+            else if (oldpwd == null || oldpwd.length <= 0) {
+                alert("请输入密码");
+            }
+            else if (newpwd == null || newpwd.length <= 0) {
+                alert("请输入新密码");
+            }
+            else if (newpwd != null && newpwd.length <= 5) {
+                alert("密码必须6位以上");
+            }
+            else {
+                if (newpwd != null && newpwd.length >= 6 && newpwd == rptpwd) {
+                    $('changeIdForm').submit();
+                } else {
+                    alert("两次密码输入不一致");
+                }
+            }
+        })
+    });
+</script>
