@@ -22,7 +22,7 @@
     <script type="text/javascript" charset="utf-8" src="/Content/ueditor/lang/zh-cn/zh-cn.js"></script>
     <script src="~/Scripts/Manage.Validate.js"></script>
     <script>
-        document.domain = "xxx.cn";
+        document.domain = "localhost";
         var ue = undefined;
         ue = UE.getEditor('editor');
         $(document).ready(function () {
@@ -247,7 +247,7 @@
             <div style="line-height: 30px; font-size: 14px; font-weight: bold; margin-top: 20px; ">
                 类型:
             </div>
-            <select id="Select_Type" name="Select_Type" class="form-control" validate="empty,positiveint" style="WIDTH: 100px">
+            <select id="Type" name="Type" class="form-control" validate="empty,positiveint" style="WIDTH: 100px">
                 @Html.Raw(HTMLUtil.SelectRaw(Core.TypeList, Model.Type, true))
             </select>
         </div>
@@ -257,7 +257,7 @@
         </div>
         <div>
             <select id="Status" name="Status" class="form-control" validate="empty,positiveint" style="WIDTH: 100px">
-                @Html.Raw(HTMLUtil.SelectRaw(Core.StatusList, Model.Status, false))
+                @Html.Raw(HTMLUtil.SelectRaw(Core.StatusList, Model.Status, true))
             </select>
         </div>
         <br />

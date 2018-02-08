@@ -15,7 +15,7 @@
 
     //搜索
     string id = ViewBag.Id == null ? "" : ViewBag.Id;
-    string title = ViewBag.Title == null ? "" : ViewBag.Title;
+    string atitle = ViewBag.ATitle == null ? "" : ViewBag.ATitle;
     string type = ViewBag.Type == null ? "" : ViewBag.Type;
     string status = ViewBag.Status == null ? "": ViewBag.Status;
 
@@ -45,7 +45,7 @@
                         </td>
                         <td style="line-height: 30px; font-size: 14px; font-weight: bold; margin-top: 20px; ">标题:</td>
                         <td>
-                            <input type="text" id="title" name="title" class="form-control" value="@title" />
+                            <input type="text" id="atitle" name="atitle" class="form-control" value="@atitle" />
                         </td>
                         <td style="line-height: 30px; font-size: 14px; font-weight: bold; margin-top: 20px; ">类型:</td>
                         <td>

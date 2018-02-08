@@ -30,6 +30,15 @@ namespace myplat.Util
             return src;
         }
 
+        public static string IfNullToThis(this string src, string myDefault)
+        {
+            if (string.IsNullOrEmpty(src))
+            {
+                return myDefault;
+            }
+            return src;
+        }
+
         /// <summary>
         /// string 字符串截取前面长度
         /// </summary>

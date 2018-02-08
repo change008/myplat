@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using myplat.Entity;
 using System.Data.SqlClient;
 using System.Data;
+using myplat.Util;
 
 namespace myplat.Dal
 {
@@ -24,9 +25,9 @@ namespace myplat.Dal
         public int Add(Core model)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("insert into Core(Title, Intro, Cover, ShowTime, Author, ViewCount, DingCount, OriginalLink, HContent, FrameLink, RedirectLink, Type, Status)");
+            strSql.Append("insert into Core(Title, Intro, Cover, ShowTime, Author, ViewCount, DingCount, OriginalLink, HContent, FrameLink, RedirectLink, Type, Status, Imgs)");
             strSql.Append(" values (");
-            strSql.Append("@Title, @Intro, @Cover, @ShowTime, @Author, @ViewCount, @DingCount, @OriginalLink, @HContent, @FrameLink, @RedirectLink, @Type, @Status");
+            strSql.Append("@Title, @Intro, @Cover, @ShowTime, @Author, @ViewCount, @DingCount, @OriginalLink, @HContent, @FrameLink, @RedirectLink, @Type, @Status, @Imgs");
             strSql.Append(" ) ");
             strSql.Append(";select SCOPE_IDENTITY();");
             SqlParameter[] parameters =
@@ -43,22 +44,23 @@ namespace myplat.Dal
                 new SqlParameter("FrameLink", SqlDbType.NVarChar, 2048),
                 new SqlParameter("RedirectLink", SqlDbType.NVarChar, 2048),
                 new SqlParameter("Type", SqlDbType.Int, 4),
-                new SqlParameter("Status", SqlDbType.Int, 4)
-
+                new SqlParameter("Status", SqlDbType.Int, 4),
+                new SqlParameter("Imgs", SqlDbType.NVarChar, -1)
             };
             parameters[0].Value = model.Title;
             parameters[1].Value = model.Intro;
-            parameters[2].Value = model.Cover;
+            parameters[2].Value = model.Cover.IfNullToEmpty();
             parameters[3].Value = model.ShowTime;
-            parameters[4].Value = model.Author;
+            parameters[4].Value = model.Author.IfNullToEmpty();
             parameters[5].Value = model.ViewCount;
             parameters[6].Value = model.DingCount;
-            parameters[7].Value = model.OriginalLink;
+            parameters[7].Value = model.OriginalLink.IfNullToEmpty();
             parameters[8].Value = model.HContent;
-            parameters[9].Value = model.FrameLink;
-            parameters[10].Value = model.RedirectLink;
+            parameters[9].Value = model.FrameLink.IfNullToEmpty();
+            parameters[10].Value = model.RedirectLink.IfNullToEmpty();
             parameters[11].Value = model.Type;
             parameters[12].Value = model.Status;
+            parameters[13].Value = model.Imgs.IfNullToThis("[]");
 
             int coreId = int.Parse(DbHelperSQLMain.GetSingle(strSql.ToString(), parameters).ToString());
             return coreId;
@@ -96,7 +98,10 @@ namespace myplat.Dal
             strSql.Append(" Author = @Author , ");
             strSql.Append(" ViewCount = @ViewCount , ");
             strSql.Append(" DingCount = @DingCount , ");
-            strSql.Append(" OriginalLink = @OriginalLink  ");
+            strSql.Append(" OriginalLink = @OriginalLink,  ");
+            strSql.Append(" Imgs = @Imgs,  ");
+            strSql.Append(" Type = @Type,  ");
+            strSql.Append(" Status = @Status  ");
             strSql.Append(" where Id=@Id ");
 
             SqlParameter[] parameters = {
@@ -111,7 +116,10 @@ namespace myplat.Dal
                         new SqlParameter("@Author", SqlDbType.NVarChar,50) ,
                         new SqlParameter("@ViewCount", SqlDbType.Int,4) ,
                         new SqlParameter("@DingCount", SqlDbType.Int,4) ,
-                        new SqlParameter("@OriginalLink", SqlDbType.NVarChar,2048)
+                        new SqlParameter("@OriginalLink", SqlDbType.NVarChar,2048),
+                        new SqlParameter("@Imgs", SqlDbType.NVarChar,-1) ,
+                        new SqlParameter("@Type", SqlDbType.Int,4) ,
+                        new SqlParameter("@Status", SqlDbType.Int,4) ,
 
             };
 
@@ -127,6 +135,9 @@ namespace myplat.Dal
             parameters[9].Value = model.ViewCount;
             parameters[10].Value = model.DingCount;
             parameters[11].Value = model.OriginalLink;
+            parameters[12].Value = model.Imgs;
+            parameters[13].Value = model.Type;
+            parameters[14].Value = model.Status;
             int rows = DbHelperSQLMain.ExecuteSql(strSql.ToString(), parameters);
             return rows;
         }

@@ -45,7 +45,7 @@ namespace myplat.UIManage.Controllers
 
             //搜索， Id, Title, Type, Stauts
             string idStr = Request.QueryString["id"] == null ? "" : Request.QueryString["id"].ToString();
-            string title = Request.QueryString["title"] == null ? "" : Request.QueryString["title"].ToString();
+            string title = Request.QueryString["atitle"] == null ? "" : Request.QueryString["atitle"].ToString();
             string type = Request.QueryString["type"] == null ? "" : Request.QueryString["type"].ToString();
             string status = Request.QueryString["status"] == null ? "" : Request.QueryString["status"].ToString();
 
@@ -85,7 +85,7 @@ namespace myplat.UIManage.Controllers
 
             //查询搜索字段
             ViewBag.Id = idStr;
-            ViewBag.Title = title;
+            ViewBag.ATitle = title;
             ViewBag.Type = type;
             ViewBag.Status = status;
 
@@ -162,7 +162,8 @@ namespace myplat.UIManage.Controllers
 
                 //类型 数据类型:(1：帖子 2：资讯 3：视频)
                 model.Type = int.Parse(collection.Get("Type"));
-                model.Status = Core.CoreStatus_Normal;
+                model.Status = int.Parse(collection.Get("Status"));
+                //model.Status = Core.CoreStatus_Normal;
 
                 model.FrameLink = collection["FrameLink"].ToString(); //框架链接，暗访
                 model.OriginalLink = collection["OriginalLink"].ToString(); //原文链接
@@ -314,7 +315,7 @@ namespace myplat.UIManage.Controllers
                         model.HContent = collection["BodyContent"].ToString();
 
                         model.Imgs = string.IsNullOrEmpty(collection["Cover_ImgDefault"]) ? "[]" : collection["Cover_ImgDefault"];//封面图;
-                                                                                                                                  //model.ImgList = JsonConvert.DeserializeObject<List<string>>(string.IsNullOrEmpty(model.Imgs) ? "[]" : model.Imgs);//对象已经处理
+                        //model.ImgList = JsonConvert.DeserializeObject<List<string>>(string.IsNullOrEmpty(model.Imgs) ? "[]" : model.Imgs);//对象已经处理
                         model.Cover = "";
                         if (model.ImgList != null && model.ImgList.Count() > 0)
                         {
@@ -323,15 +324,11 @@ namespace myplat.UIManage.Controllers
 
                         //类型 数据类型:(1：帖子 2：资讯 3：视频)
                         model.Type = int.Parse(collection.Get("Type"));
-                        model.Status = Core.CoreStatus_Normal;
+                        model.Status = int.Parse(collection.Get("Status"));
 
                         model.FrameLink = collection["FrameLink"].ToString(); //框架链接，暗访
                         model.OriginalLink = collection["OriginalLink"].ToString(); //原文链接
                         model.RedirectLink = collection["RedirectLink"].ToString(); //自动跳转链接
-
-                        model.ViewCount = 0;
-                        model.DingCount = 0;
-
 
                         //更新数据
                         bool flag = _coreBiz.Update(model);
