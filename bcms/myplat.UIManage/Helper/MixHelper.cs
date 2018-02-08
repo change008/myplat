@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using myplat.Entity;
 
-namespace Tiexue.Mobile.TT.ManageUI.Helper
+namespace myplat.UIManage.Helper
 {
     public static class MixHelper
     {

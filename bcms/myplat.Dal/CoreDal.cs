@@ -143,6 +143,36 @@ namespace myplat.Dal
             return model;
         }
 
+        /// <summary>
+        /// 请求数量
+        /// </summary>
+        /// <param name="where"></param>
+        /// <returns></returns>
+        public int GetCount(string sqlWhere)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("select count(1) as count from Core with(nolock) ");
+            sb.Append(sqlWhere);
+
+            return DBFactory.DbMain.ExecuteScalar<int>(sb.ToString());
+        }
+
+        /// <summary>
+        /// 请求具体数据
+        /// </summary>
+        /// <param name="startIndex"></param>
+        /// <param name="endIndex"></param>
+        /// <param name="strWhere"></param>
+        /// <returns></returns>
+        public IEnumerable<Core> GetList(int startIndex, int endIndex, string strWhere)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.AppendFormat("SELECT * FROM ( SELECT * , ROW_NUMBER() OVER(Order by a.ID DESC ) AS Row FROM Core AS a with(nolock) {0} ) AS b", strWhere);
+            strSql.AppendFormat(" WHERE Row between {0} and {1}", startIndex, endIndex);
+
+            IEnumerable<Core> list = DBFactory.DbMain.Select<Core>(strSql.ToString());
+            return list;
+        }
 
     }
 }

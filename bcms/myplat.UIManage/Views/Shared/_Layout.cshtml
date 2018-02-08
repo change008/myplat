@@ -76,30 +76,8 @@
             <div style="position: relative; padding:10px; width: 15%; float: left; margin: 10px; margin-top:9px; background-color:#f6f5f5">
                 <!--Sidebar content-->
                 <ul id="ur-nav" class="nav nav-list">
-                    @if (Request.Url.LocalPath.ToLower().StartsWith("/manager"))
-                    {
-                        <li class="active">@Html.ActionLink("账户管理", "Index", "Manager")</li>
-                    }
-                    else
-                    {
-                        <li>@Html.ActionLink("账户管理", "Index", "Manager")</li>
-                    }
-                    @if (Request.Url.LocalPath.ToLower().StartsWith("/Platform"))
-                    {
-                        <li class="active">@Html.ActionLink("数据源管理", "Index", "Platform")</li>
-                    }
-                    else
-                    {
-                        <li>@Html.ActionLink("数据源管理", "Index", "Platform")</li>
-                    }
-                    @if (Request.Url.LocalPath.ToLower().StartsWith("/Article") && !Request.Url.LocalPath.ToLower().StartsWith("/article/trialindex"))
-                    {
-                        <li class="active">@Html.ActionLink("文章管理", "Index", "Article")</li>
-                    }
-                    else
-                    {
-                        <li>@Html.ActionLink("文章管理", "Index", "Article")</li>
-                    }
+                    <li>@Html.ActionLink("用户管理", "Index", "Manager")</li>
+                    <li>@Html.ActionLink("文章管理", "Index", "Core")</li>
                 </ul>
             </div>
             @*<div class="span10 well" style="min-height: 830px;">*@

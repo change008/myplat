@@ -1,0 +1,188 @@
+﻿@using myplat.Entity
+@using myplat.Util
+@using myplat.UIManage;
+@model IEnumerable<Core>
+
+
+@{
+    ViewBag.Title = "内容管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+  
+    int pageSize = ViewData["PageSize"] == null ? 1 : (int)ViewData["PageSize"];
+    int total = ViewData["Total"] == null ? 1 : (int)ViewData["Total"];
+    int pageIndex = ViewData["p"] == null ? 1 : (int)ViewData["p"];
+
+    //搜索
+    string id = ViewBag.Id == null ? "" : ViewBag.Id;
+    string title = ViewBag.Title == null ? "" : ViewBag.Title;
+    string type = ViewBag.Type == null ? "" : ViewBag.Type;
+    string status = ViewBag.Status == null ? "": ViewBag.Status;
+
+}
+
+<style>
+    #CurrentProductIdDiv input, #CurrentProductIdDiv .tdid, .tablist input, .tablist .tdid {
+        display: none;
+    }
+
+    .tablist table {
+        border-bottom: 1px #ccc solid;
+    }
+</style>
+
+<div id="category-container">
+    <div style="border-bottom: 1px #ccc solid; padding-bottom:10px; margin-bottom:30px;"><a href="~/Core/Add"><input type="button" value="添加" class="ui-button ui-widget ui-state-default ui-corner-all" style="background-color: #0094ff; color: white;" /></a></div>
+    <div style="border-bottom: 1px #ccc solid; padding-bottom:10px; margin-bottom:30px;">
+       
+        <div>
+            <form>
+                <table style="margin-bottom:20px; margin-top:20px;">
+                    <tr>
+                        <td style="line-height: 30px; font-size: 14px; font-weight: bold; margin-top: 20px; ">Id:</td>
+                        <td>
+                            <input type="text" id="id" name="id" class="form-control" value="@id" />
+                        </td>
+                        <td style="line-height: 30px; font-size: 14px; font-weight: bold; margin-top: 20px; ">标题:</td>
+                        <td>
+                            <input type="text" id="title" name="title" class="form-control" value="@title" />
+                        </td>
+                        <td style="line-height: 30px; font-size: 14px; font-weight: bold; margin-top: 20px; ">类型:</td>
+                        <td>
+                            <select id="Type" name="Type" class="form-control"  style="WIDTH: 100px">
+                                @Html.Raw(HTMLUtil.SelectRaw(Core.TypeList, type, true))
+                            </select>
+                        </td>
+                        <td style="line-height: 30px; font-size: 14px; font-weight: bold; margin-top: 20px; ">状态:</td>
+                        <td>
+                            <select id="Status" name="Status" class="form-control" style="WIDTH: 100px">
+                                @Html.Raw(HTMLUtil.SelectRaw(Core.StatusList, status, true))
+                            </select>
+                        </td>
+                        <td>
+                            <button type="submit" style="background-color: #0094ff; color: white;" >搜索</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+    </div>
+
+    <table class="table table-hover" style="border:solid 1px #cee2f7;">
+        <thead>
+            <tr style="background:#cee2f7">
+                <th>ID</th>
+                <th>图</th>
+                <th>标题</th>
+                <th>浏览量</th>
+                <th>插入时间</th>
+                <th>文章类型</th>
+                <th>状态</th>
+                <th colspan="2">操作</th>
+            </tr>
+        </thead>
+        @if (Model != null && Model.Count() > 0)
+        {
+            <tbody>
+                @foreach (Core item in Model)
+                {
+                    var style = string.Empty;
+                    var artOpt = string.Empty;
+                    if (item.Status == 1)
+                    {
+                        style = "";
+                        artOpt = " <a class='delete' id='" + item.Id + "' onclick='javascript: deleteArticle(" + item.Id + ")'>删除</a>";
+                    }
+                    if(item.Status == 2)
+                    {
+                        style = "style='background-color: #f9d8d8'";
+                        artOpt = " <a class='delete' id='" + item.Id + "' onclick='javascript: recoverArticle(" + item.Id + ")'>恢复</a>";
+                    }
+                    
+
+                    <tr id="@item.Id" @Html.Raw(style)>
+                        <td>@item.Id</td>
+                        <td><a href="/Core/Detail/@item.Id" target="_blank"><img src="@(!string.IsNullOrEmpty(item.Cover) ? item.Cover : "")" width="100"/></a></td>
+                        <td style="max-width: 300px;">@Html.ActionLink(@item.Title, "Detail", "Core", new { id = item.Id } , null)</td>
+                        <td>@item.ViewCount</td>
+                        <td>@item.CreateTime.ToString("yyyy-MM-dd")</td>
+                        <td>@HTMLUtil.GetDictionaryValueByKey(Core.TypeList,  item.Type)</td>
+                        <td>@HTMLUtil.GetDictionaryValueByKey(Core.StatusList, item.Status)</td>
+                        <td><a href="/Core/Edit/@item.Id" target="_blank">修改</a></td>
+                        <td>
+                            @Html.Raw(artOpt)
+                        </td>
+                    </tr>
+
+
+
+                }
+            </tbody>
+        }
+    </table>
+    <div class="pagination pagination-centered">
+        @{
+            Dictionary<string, int> param = new Dictionary<string, int>();
+        }
+        @Html.Pager("p", pageSize, total, param)
+    </div>
+ 
+
+</div>
+
+<script type="text/javascript">
+
+    function deleteArticle(itemid) {
+        if (confirm("确定要删除吗？")) {
+            var model = { id: itemid };
+            $.ajax({
+                url: "/Core/Delete",
+                dataType: 'json',
+                type: 'POST',
+                data: model,
+                success: function (data) {
+                    if (data.Ok) {
+                        alert("删除成功");
+                        window.location.reload();
+                    }
+                    else {
+                        alert("删除失败," + data.Msg);
+                    }
+                }
+            });
+        } else {
+            return false;
+        }
+    }
+
+    function recoverArticle(itemid) {
+        if (confirm("确定要恢复吗？")) {
+            var model = { id: itemid };
+            $.ajax({
+                url: "/Core/Recover",
+                dataType: 'json',
+                type: 'POST',
+                data: model,
+                success: function (data) {
+                    if (data.Ok) {
+                        alert("恢复成功");
+                        window.location.reload();
+                    }
+                    else {
+                        alert("恢复失败," + data.Msg);
+                    }
+                }
+            });
+        } else {
+            return false;
+        }
+    }
+</script>
+
+
+
+
+
+
+

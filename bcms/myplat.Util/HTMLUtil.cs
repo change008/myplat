@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Linq;
+using System.Text;
 
 namespace myplat.Util
 {
@@ -18,7 +19,7 @@ namespace myplat.Util
         {
             foreach (string s in needClear)
             {
-                string regString = string.Format(@"</?{0}[^>]*>",s);
+                string regString = string.Format(@"</?{0}[^>]*>", s);
                 Regex reg = new Regex(regString, RegexOptions.IgnoreCase);
                 htmlString = reg.Replace(htmlString, "");
             }
@@ -54,8 +55,8 @@ namespace myplat.Util
                 first = false;
             }
             regString += @"|\/?!)[^<>]*>";
-            
-            return Regex.Replace(htmlString,regString, "",RegexOptions.IgnoreCase);
+
+            return Regex.Replace(htmlString, regString, "", RegexOptions.IgnoreCase);
         }
 
         /// <summary>
@@ -65,7 +66,7 @@ namespace myplat.Util
         /// <returns></returns>
         public static string ClearImgTag(string htmlString)
         {
-            return Regex.Replace(htmlString, "<img.+?src=[\"']([^\"']+)[\"'][^>]*>","<img src=\"$1\"/>");
+            return Regex.Replace(htmlString, "<img.+?src=[\"']([^\"']+)[\"'][^>]*>", "<img src=\"$1\"/>");
         }
 
         /// <summary>
@@ -95,8 +96,8 @@ namespace myplat.Util
         {
             foreach (string s in needRemoved)
             {
-                string regString = string.Format(@"<{0}(\s[^>]*)?>((?!</{0}>).)+</{0}>",s);
-                Regex reg = new Regex(regString,RegexOptions.IgnoreCase);
+                string regString = string.Format(@"<{0}(\s[^>]*)?>((?!</{0}>).)+</{0}>", s);
+                Regex reg = new Regex(regString, RegexOptions.IgnoreCase);
                 htmlString = reg.Replace(htmlString, "");
             }
             return htmlString;
@@ -249,9 +250,9 @@ namespace myplat.Util
             return htmlString.Substring(startPos);
         }
 
-        public static string GetFullURL(string hostURL,string relativeURL,bool relativeRoot = false)
+        public static string GetFullURL(string hostURL, string relativeURL, bool relativeRoot = false)
         {
-            if(string.IsNullOrEmpty(hostURL) || string.IsNullOrEmpty(relativeURL))
+            if (string.IsNullOrEmpty(hostURL) || string.IsNullOrEmpty(relativeURL))
                 return null;
 
             if (Regex.IsMatch(relativeURL, "^data:image", RegexOptions.IgnoreCase))
@@ -260,7 +261,7 @@ namespace myplat.Util
             if (Regex.IsMatch(relativeURL, "^javascript:", RegexOptions.IgnoreCase))
                 return null;
 
-            if (Regex.IsMatch(relativeURL, "^https?://",RegexOptions.IgnoreCase))
+            if (Regex.IsMatch(relativeURL, "^https?://", RegexOptions.IgnoreCase))
                 return relativeURL;
 
             Uri host = new Uri(hostURL);
@@ -332,5 +333,69 @@ namespace myplat.Util
 
             return htmlString;
         }
+
+        /// <summary>
+        /// 输出html代码
+        /// </summary>
+        /// <param name="dic"></param>
+        /// <param name="selectedID"></param>
+        /// <param name="isShowEmptyOption"></param>
+        /// <returns></returns>
+        public static string SelectRaw(Dictionary<int, string> dic, int selectedID, bool isShowEmptyOption)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            if (isShowEmptyOption)
+            {
+                sb.Append(" <option value='0'></option>");
+            }
+            if (dic != null)
+            {
+                foreach (var item in dic.Keys)
+                {
+                    sb.AppendFormat("   <option value='{0}' {1} >{2}</option>", item, item == selectedID ? "selected=selected" : "", dic[item]);
+                }
+            }
+            return sb.ToString();
+        }
+
+        public static string SelectRaw(Dictionary<int, string> dic, string selectedID, bool isShowEmptyOption)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            if (isShowEmptyOption)
+            {
+                sb.Append(" <option value='0'></option>");
+            }
+            if (dic != null)
+            {
+                foreach (var item in dic.Keys)
+                {
+                    sb.AppendFormat("   <option value='{0}' {1} >{2}</option>", item, item.ToString() == selectedID ? "selected=selected" : "", dic[item]);
+                }
+            }
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// 根据字典key得到value
+        /// </summary>
+        /// <param name="dic"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static string GetDictionaryValueByKey(Dictionary<int, string> dic, int key)
+        {
+            try
+            {
+                string value = dic[key];
+                return value == null ? "" : value;
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
+
     }
 }

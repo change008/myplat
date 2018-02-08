@@ -1,0 +1,298 @@
+﻿@using myplat.Entity
+@using myplat.Util
+@model Core
+
+
+@section headInclude{
+    @if (ViewBag.Msg != null)
+    {
+        <script>
+            var result = "@ViewBag.Success";
+            alert("@ViewBag.Msg");
+            if (result == "True") {
+                //history.go(-2);
+            }
+        </script>
+    }
+    <script src="/Scripts/jquery.json.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/Content/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/Content/ueditor/ueditor.all.js"> </script>
+    <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+    <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+    <script type="text/javascript" charset="utf-8" src="/Content/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script src="~/Scripts/Manage.Validate.js"></script>
+    <script>
+        document.domain = "xxx.cn";
+        var ue = undefined;
+        ue = UE.getEditor('editor');
+        $(document).ready(function () {
+
+            var imgstring = '@Html.Raw(Model.Imgs)';
+            var imgs = $.evalJSON(imgstring);
+
+            if (imgs.length >= 1) {
+                $('#input_image1').val(imgs[0]);
+                $("#img_show1").attr("src", imgs[0]);
+            }
+            if (imgs.length >= 2) {
+                $('#input_image2').val(imgs[1]);
+                $("#img_show2").attr("src", imgs[1]);
+            }
+            if (imgs.length >= 3) {
+                $('#input_image3').val(imgs[2]);
+                $("#img_show3").attr("src", imgs[2]);
+            }
+
+
+            $("#submit_Action").click(function () {
+                if (!validate()) {
+                    alert("缺少必填项");
+                    return;
+                }
+                var str = ue.getContent();
+                if (str == undefined || str.length == 0) {
+                    alert("内容缺失！");
+                    return;
+                }
+                else {
+
+                    var a = [];
+                    if ($('#input_image1').val()) a.push($('#input_image1').val());
+                    if ($('#input_image2').val()) a.push($('#input_image2').val());
+                    if ($('#input_image3').val()) a.push($('#input_image3').val());
+                    $("#Cover_ImgDefault").val($.toJSON(a));
+
+
+                    $("#BodyContent").val(str);
+                    $("#form2").submit();
+                }
+            });
+
+
+            $("#deepClear").click(function () {
+                var content = ue.getContent();
+                $.ajax({
+                    url: "/Core/DeepClear",
+                    data: { htmlString: content },
+                    type: "POST",
+                    dataType: 'json',
+                    success: function (data) {
+                    },
+                    complete: function (data) {
+                        ue.setContent(data.responseText);
+                        alert("成功清除文章样式！");
+
+                    }
+
+                });
+            });
+
+            //本地化图片
+            $("#lockiconImg").click(function () {
+                var content = ue.getContent();
+                if (confirm("已经本地化的正文图片不需要此操作。是否继续？")) {
+                    $.ajax({
+                        url: "/Core/LockiconImg",
+                        data: { htmlString: content },
+                        type: "POST",
+                        dataType: 'json',
+                        success: function (data) {
+                        },
+                        complete: function (data) {
+                            ue.setContent(data.responseText);
+                            alert("正文本地化成功！");
+                        }
+
+                    });
+                }
+            });
+
+
+            ue.addListener("ready", function () {
+                ue.setContent($("#BodyContent").val(), false);
+            });
+
+
+
+
+            $("#btn_upload").click(function () {
+
+                var data = undefined;
+                var file1 = $("#input_file1").get(0).files;
+                var file2 = $("#input_file2").get(0).files;
+                var file3 = $("#input_file3").get(0).files;
+
+                if (file1.length > 0 || file2.length > 0 || file3.length > 0) {
+
+                    data = new FormData();
+                    data.append("Select_ImgShowType", $("#ImgShowType").val());
+
+                    if (file1.length > 0) data.append("img1", file1[0]);
+                    if (file2.length > 0) data.append("img2", file2[0]);
+                    if (file3.length > 0) data.append("img3", file3[0]);
+
+                } else {
+                    alert("没有选择图片！");
+                }
+
+                if (data) {
+                    $.ajax({
+                        url: '/Core/UploadImage',
+                        type: 'POST',
+                        contentType: false,
+                        processData: false,
+                        data: data,
+                        success: function (data) {
+
+                            $('#input_file1').val("");
+                            $('#input_file2').val("");
+                            $('#input_file3').val("");
+
+                            if (data.img1) {
+                                $('#input_image1').val(data.img1);
+                                $("#img_show1").attr("src", data.img1);
+                            }
+
+                            if (data.img2) {
+                                $('#input_image2').val(data.img2);
+                                $("#img_show2").attr("src", data.img2);
+                            }
+                            if (data.img3) {
+                                $('#input_image3').val(data.img3);
+                                $("#img_show3").attr("src", data.img3);
+                            }
+                        },
+                        complete: function (data) {
+                            alert("上传完成");
+                        }
+                    });
+                }
+
+            });
+
+        });
+        //验证必填项
+        function validate() {
+            if (new window.Validate().validateForm(document.forms[0])) {
+
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+    </script>
+}
+<style>
+    .validate2 {
+        color: red;
+    }
+</style>
+<h4>上传封面图</h4>
+<img width="140" height="90" id="img_show1" />&nbsp;
+<img width="140" height="90" id="img_show2" />&nbsp;
+<img width="140" height="90" id="img_show3" />
+
+@using (Html.BeginForm("Edit", "Core", FormMethod.Post, new { enctype = "multipart/form-data", id = "form2" }))
+{
+    @Html.ValidationSummary()
+    @Html.AntiForgeryToken()
+
+    if (Model != null)
+    {
+        <table>
+            <tr>
+                <td>图片1：</td>
+                <td><input type="text" id="input_image1" /></td>
+                <td><input type="file" id="input_file1" /></td>
+                <td><span style="color:red">500*325尺寸</span></td>
+            </tr>
+            <tr>
+                <td>图片2：</td>
+                <td><input type="text" id="input_image2" /></td>
+                <td><input type="file" id="input_file2" /></td>
+            </tr>
+            <tr>
+                <td>图片3：</td>
+                <td><input type="text" id="input_image3" /></td>
+                <td><input type="file" id="input_file3" /></td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="button" value="上传" class="ui-button ui-widget ui-state-default ui-corner-all" id="btn_upload" />
+                </td>
+            </tr>
+        </table>
+        <br />
+        <input type="hidden" id="Cover_ImgDefault" name="Cover_ImgDefault" value="@Model.Imgs" />
+
+        <label>Id:@Model.Id</label><input type="hidden" name="Id" value="@Model.Id">
+
+        <div style="line-height: 30px; font-size: 14px; font-weight: bold; margin-top: 20px; ">
+            标题:
+        </div>
+        <div>
+            <input type="text" name="Title" id="Title" value="@Model.Title" validate="empty" style="width:400px;height:30px" />
+        </div>
+        <br />
+
+        <div style="line-height: 30px; font-size: 14px; font-weight: bold; margin-top: 5px; ">
+            简介:
+        </div>
+        <textarea name="Intro" id="Intro" title="" rows="5">@Model.Intro</textarea>
+
+        <br />
+        <div>
+            <div style="line-height: 30px; font-size: 14px; font-weight: bold; margin-top: 20px; ">
+                类型:
+            </div>
+            <select id="Select_Type" name="Select_Type" class="form-control" validate="empty,positiveint" style="WIDTH: 100px">
+                @Html.Raw(HTMLUtil.SelectRaw(Core.TypeList, Model.Type, true))
+            </select>
+        </div>
+        <br />
+        <div style="line-height: 30px; font-size: 14px; font-weight: bold; margin-top: 20px; ">
+            状态 ( 1：正常 2：已删除 ) :
+        </div>
+        <div>
+            <select id="Status" name="Status" class="form-control" validate="empty,positiveint" style="WIDTH: 100px">
+                @Html.Raw(HTMLUtil.SelectRaw(Core.StatusList, Model.Status, false))
+            </select>
+        </div>
+        <br />
+
+        <div style="line-height: 30px; font-size: 14px; font-weight: bold; margin-top: 8px; ">
+            阅读原文链接:
+        </div>
+        <input type="text" name="OriginalLink" id="OriginalLink" value="@Model.OriginalLink" style="width:400px;height:30px" />
+        <br />
+        <div style="line-height: 30px; font-size: 14px; font-weight: bold; margin-top: 8px; ">
+            暗访链接:
+        </div>
+        <input type="text" name="FrameLink" id="FrameLink" value="@Model.FrameLink" style="width:400px;height:30px" />
+        <br />
+        <div style="line-height: 30px; font-size: 14px; font-weight: bold; margin-top: 8px; ">
+            跳转链接:
+        </div>
+        <input type="text" name="RedirectLink" id="RedirectLink" value="@Model.RedirectLink" style="width:400px;height:30px" />
+        <br />
+
+        <div style="line-height: 30px; font-size: 14px; font-weight: bold; margin-top: 5px; ">
+            正文:
+        </div>
+
+        <!--富文本编辑器-->
+        <script id="editor" type="text/plain" style="width:800px;height:500px;">
+        </script>
+        <input type="hidden" id="BodyContent" name="BodyContent" value="@Model.HContent" />
+        <br />
+
+        <input id="deepClear" type="button" value="深度清除样式" />
+        <div style="margin-bottom:10px;">
+            <input id="lockiconImg" type="button" value="图片本地化" />
+        </div>
+        <input type="button" value="更 新" name="submit_Action" id="submit_Action" />
+        <a href="javascript:history.back()">返回</a>
+    }
+}

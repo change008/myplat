@@ -22,7 +22,7 @@ namespace myplat.UIManage.Controllers
         /// 管理biz
         /// </summary>
         private static ManagerBiz _ManagerBiz = new ManagerBiz();
-        public static string _CookieName = ConfigurationManager.AppSettings["CookieName"];
+        
 
         /// <summary>
         /// 显示界面
@@ -30,7 +30,7 @@ namespace myplat.UIManage.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-            if (!_ManagerBiz.VerificationAdmin(_CookieName))
+            if (!_ManagerBiz.VerificationAdmin())
             {
                 Response.Redirect("/Account/Login");
             }
@@ -129,7 +129,7 @@ namespace myplat.UIManage.Controllers
                 {
                     return Json(new { result = true, Msg = "ID不存在" });
                 }
-                string pwd = "borui2017fa";
+                string pwd = "admin1";
                 _ManagerBiz.UpdatePwd(model.Id, pwd);
                 return Json(new { result = true, msg = "" });
             }

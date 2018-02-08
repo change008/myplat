@@ -21,7 +21,7 @@ namespace myplat.Test
 
         static void PwdCreate()
         {
-            string pwd = "borui2017fa";
+            string pwd = "admin";
             string pwdmd5 = Util.MD5Encrypt.Md5Hex(pwd);
             string xyz = pwdmd5;
         }

@@ -1,6 +1,7 @@
 ﻿using myplat.Util;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,11 @@ namespace myplat.Biz
     {
         //密钥
         private static readonly string encryptKey = "akajshdflkiwbl";
+
+        /// <summary>
+        /// cookie name
+        /// </summary>
+        public static string _CookieName = ConfigurationManager.AppSettings["CookieName"];
 
         /// <summary>
         /// Cookie登录

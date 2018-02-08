@@ -43,6 +43,12 @@ namespace myplat.Biz
             return dal.Update(model) == 1;
         }
 
+        public bool UpdateStatus(int id, int status)
+        {
+            return dal.UpdateStatus(id, status) == 1;
+        }
+
+
         /// <summary>
         /// 请求单个对象
         /// </summary>
@@ -53,5 +59,30 @@ namespace myplat.Biz
             return dal.Get(id);
         }
 
+        /// <summary>
+        /// 请求列表
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="strWhere"></param>
+        /// <returns></returns>
+        public object GetList(int page, int pageSize, string strWhere)
+        {
+            int startIndex, endIndex;
+            startIndex = (page - 1) * pageSize + 1;
+            endIndex = page * pageSize;
+            IEnumerable<Core> list = dal.GetList(startIndex, endIndex, strWhere);
+            return list;
+        }
+
+        /// <summary>
+        /// 请求数量
+        /// </summary>
+        /// <param name="strWhere"></param>
+        /// <returns></returns>
+        public int GetCount(string strWhere)
+        {
+            return dal.GetCount(strWhere);
+        }
     }
 }

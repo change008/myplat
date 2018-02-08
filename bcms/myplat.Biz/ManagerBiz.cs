@@ -126,10 +126,17 @@ namespace myplat.Biz
             }
         }
 
+
+
+
         /// <summary>
         /// 验证管理员权限
         /// </summary>
         /// <returns>true|false</returns>
+        public bool VerificationAdmin()
+        {
+            return VerificationAdmin(UserAuthCookie._CookieName);
+        }
         public bool VerificationAdmin(string cookieName)
         {
             try

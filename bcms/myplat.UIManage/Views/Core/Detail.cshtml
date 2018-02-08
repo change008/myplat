@@ -1,0 +1,44 @@
+﻿@using myplat.Entity
+@model Core
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    #CurrentProductIdDiv input, #CurrentProductIdDiv .tdid, .tablist input, .tablist .tdid {
+        display: none;
+    }
+
+    .tablist table {
+        border-bottom: 1px #ccc solid;
+    }
+</style>
+
+<div id="category-container">
+    <div style="border-bottom: 1px #ccc solid; padding-bottom:10px; margin-bottom:30px;">
+        <a href="~/Core/Index"><input type="button" value="返 回" class="ui-button ui-widget ui-state-default ui-corner-all" style="background-color: #0094ff; color: white;" /></a>
+    </div>
+
+
+    @if (Model != null)
+    {
+        if (Model.ImgList != null && Model.ImgList.Count > 0)
+        {
+            foreach (var item in Model.ImgList)
+            {
+                <img src=@item width="200" style="width:30%" />
+            }
+        }
+    }
+
+    <textarea>@Html.Raw(Model.HContent)</textarea>
+
+</div>
+
+
+
+
+
+

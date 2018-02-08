@@ -9,6 +9,9 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Web;
 using System.Configuration;
+using System.Drawing;
+using System.Drawing.Imaging;
+using ZXing;
 
 namespace myplat.Util
 {
@@ -324,7 +327,7 @@ namespace myplat.Util
             ImgUploadRet imgRet = new ImgUploadRet();
             //通过标准构造函数
             //string jsonText = "{'ret':1,'msg':'123'}";
-            string jsonText = uploadPicByHttp(data,extension, imgFormatList);
+            string jsonText = uploadPicByHttp(data, extension, imgFormatList);
 
             JObject jObject = JObject.Parse(jsonText);
             imgRet.Ret = jObject.Property("ret").Value.ToString().ToSimpleT<int>(1);
@@ -464,6 +467,138 @@ namespace myplat.Util
             return responseText;
         }
 
+        /// <summary>
+        /// 检查图片是不是动图或者长图
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static bool CheckImageIsGif(string url, int minHeight, int minWidth)
+        {
+            int FramesCount = 0;
+            try
+            {
+                //创建一个request 同时可以配置requst其余属性
+                System.Net.WebRequest imgRequst = System.Net.WebRequest.Create(url);
+                //在这里我是以流的方式保存图片
+                Image downImage = Image.FromStream(imgRequst.GetResponse().GetResponseStream());
+                FrameDimension fd = new FrameDimension(downImage.FrameDimensionsList[0]);
+                FramesCount = downImage.GetFrameCount(fd);
+                //图片大小
+                if (downImage.Height <= minHeight || downImage.Width <= minWidth)
+                    return true;
+                //动态图
+                return FramesCount > 1 ? true : false;
+                ////以Jpeg格式保存各帧
+                //for (int i = 0; i < count; i++)
+                //{
+                //    downImage.SelectActiveFrame(fd, i);
+                //    downImage.Save(pSavedPath + "\\frame_" + i + ".jpg", ImageFormat.Jpeg);
+                //}
+            }
+            catch 
+            {
+                
+                return false;
+            }
+        }
+        /// <summary>
+        /// 检查图片是不是动图或者长图或者二维码
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static bool CheckImage(string url, int minHeight, int minWidth)
+        {
+            int FramesCount = 0;
+            Stream fm = null;
+            try
+            {
+
+                //创建一个request 同时可以配置requst其余属性
+                System.Net.WebRequest imgRequst = System.Net.WebRequest.Create(url);
+                fm = imgRequst.GetResponse().GetResponseStream();
+                //在这里我是以流的方式保存图片
+                System.Drawing.Image downImage = System.Drawing.Image.FromStream(fm);
+                FrameDimension fd = new FrameDimension(downImage.FrameDimensionsList[0]);
+                FramesCount = downImage.GetFrameCount(fd);
+                //图片大小
+                if (downImage.Height <= minHeight || downImage.Width <= minWidth)
+                    return true;
+                //是动图
+                if (FramesCount > 1)
+                    return true;
+                //使用ZXing识别二维码
+                BarcodeReader reader = new BarcodeReader();
+                reader.Options.CharacterSet = "UTF-8";
+                var map = new Bitmap(downImage);
+                Result resultStr = reader.Decode(map);
+                var decodedString = resultStr == null ? "" : resultStr.Text;
+
+                if (!string.IsNullOrEmpty(decodedString))
+                    return true;
+                else
+                {
+                    //效率太低暂不使用
+                    ////使用QRCode.Codec识别二维码
+                    //QRCodeDecoder decoder = new QRCodeDecoder();
+                    //decodedString = decoder.decode(new QRCodeBitmapImage(map),System.Text.Encoding.UTF8);
+                    //if (!string.IsNullOrEmpty(decodedString))
+                    //    return true;
+                }
+            }
+            catch 
+            {
+                if (fm != null)
+                    fm.Close();
+                return false;
+            }
+            finally
+            {
+
+            }
+            return false;
+        }
+        /// <summary>
+        /// 检查图片格式
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public static FileExtension CheckImgFile(string fileName)
+        {
+            FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+            System.IO.BinaryReader br = new System.IO.BinaryReader(fs);
+            string fileType = string.Empty; ;
+            try
+            {
+                byte data = br.ReadByte();
+                fileType += data.ToString();
+                data = br.ReadByte();
+                fileType += data.ToString();
+                FileExtension extension;
+                try
+                {
+                    extension = (FileExtension)Enum.Parse(typeof(FileExtension), fileType);
+                }
+                catch
+                {
+
+                    extension = FileExtension.VALIDFILE;
+                }
+                return extension;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (fs != null)
+                {
+                    fs.Close();
+                    br.Close();
+                }
+            }
+        }
+
     }
 
     /// <summary>
@@ -581,5 +716,16 @@ namespace myplat.Util
         public Dictionary<int, string> ImgUrls { get; set; }
     }
 
+    public enum FileExtension
+    {
+        JPG = 255216,
+        GIF = 7173,
+        PNG = 13780,
+        SWF = 6787,
+        RAR = 8297,
+        ZIP = 8075,
+        _7Z = 55122,
+        VALIDFILE = 9999999
+    }
 
 }
