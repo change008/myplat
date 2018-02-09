@@ -439,7 +439,7 @@ namespace myplat.UIManage.Controllers
         {
             try
             {
-                //htmlString = _clientBiz.LocalizationImgInTxt(htmlString);
+                htmlString = _QiniuImgBiz.LocalizationImgInTxt(htmlString);
             }
             catch (Exception ex)
             {
