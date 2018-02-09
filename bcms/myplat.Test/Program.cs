@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using myplat.Biz;
 
 namespace myplat.Test
 {
@@ -15,7 +16,16 @@ namespace myplat.Test
 
             //CoreTestAdd();
 
-            PwdCreate();
+            uploadimg();
+        }
+
+        static void uploadimg()
+        {
+            QiniuImgBiz q = new QiniuImgBiz();
+            string addr = "";
+            q.UploadUri("http://www.taopic.com/uploads/allimg/140729/240450-140HZP45790.jpg", out addr);
+            string addr1 = "";
+            q.UploadUri("https://mmbiz.qpic.cn/mmbiz_jpg/G8vkERUJibks09JnDjMNX42CiaNvmQXv69UfEoF2xbr6EI9qvJNMcaod93LvzoUfVtBP9dLHoU0ZBibJ7sa7zBZgA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1", out addr1);
         }
 
 
