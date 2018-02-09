@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using myplat.Util;
+using myplat.Biz;
 
 /// <summary>
 /// UploadHandler 的摘要说明
@@ -22,10 +23,14 @@ public class UploadHandler : Handler
         this.Result = new UploadResult() { State = UploadState.Unknown };
     }
 
+    //七牛图片上传
+    private static QiniuImgBiz _QiniuImgBiz = new QiniuImgBiz();
+
+    /// <summary>
+    /// 文件上传操作
+    /// </summary>
     public override void Process()
     {
-
-
         HttpPostedFile imgfile = (HttpPostedFile)Request.Files[UploadConfig.UploadFieldName];
         HttpPostedFileBase fileBase = new HttpPostedFileWrapper(imgfile) as HttpPostedFileBase;
         string uploadFileName1 = imgfile.FileName;
@@ -44,17 +49,19 @@ public class UploadHandler : Handler
         }
 
         Result.OriginFileName = uploadFileName1;
-        ImgUploadRet imgRet = ImgUtil.UploadImag(fileBase);
-        if (imgRet.IsSuc)
+
+        string addr;
+        var ret = _QiniuImgBiz.UploadStream(fileBase.InputStream, uploadFileName1, out addr);
+        //ImgUploadRet imgRet = ImgUtil.UploadImag(fileBase);
+        if (ret)
         {
-            string url = imgRet.GetImgUrl(0);
-            Result.Url = url;
+            Result.Url = addr;
             Result.State = UploadState.Success;
         }
         else
         {
             Result.State = UploadState.NetworkError;
-            Result.ErrorMessage = "上传错误:"+imgRet.Msg;
+            Result.ErrorMessage = "上传错误";
         }
         WriteResult();
 

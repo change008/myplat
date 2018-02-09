@@ -93,7 +93,7 @@
                 if (file1.length > 0 || file2.length > 0 || file3.length > 0) {
 
                     data = new FormData();
-                    data.append("Select_ImgShowType", $("#Select_ImgShowType").val());
+                    //data.append("Select_ImgShowType", $("#Select_ImgShowType").val());
 
                     if (file1.length > 0) data.append("img1", file1[0]);
                     if (file2.length > 0) data.append("img2", file2[0]);
@@ -105,7 +105,7 @@
 
                 if (data) {
                     $.ajax({
-                        url: '/Core/UploadImage',
+                        url: '/Core/UploadImageQiniu',
                         type: 'POST',
                         contentType: false,
                         processData: false,

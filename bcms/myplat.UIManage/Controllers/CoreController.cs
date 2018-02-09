@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -26,6 +27,9 @@ namespace myplat.UIManage.Controllers
         private static CoreBiz _coreBiz = new CoreBiz();
         private readonly static ManagerBiz _ManagerBiz = new ManagerBiz();
         public static string _CookieName = ConfigurationManager.AppSettings["CookieName"];
+
+        //七牛图片处理业务
+        private static QiniuImgBiz _QiniuImgBiz = new QiniuImgBiz();
 
         /// <summary>
         /// 获取文章列表
@@ -192,53 +196,6 @@ namespace myplat.UIManage.Controllers
             return RedirectToAction("Index");
         }
 
-
-        /// <summary>
-        /// 上传图片
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult UploadImage()
-        {
-            HttpFileCollectionBase files = Request.Files;
-            // bool isWideImage = Request["Select_ImgShowType"] == "1";
-            Dictionary<string, string> result = new Dictionary<string, string>();
-            HttpPostedFileBase image1 = (HttpPostedFileBase)Request.Files["img1"];
-            HttpPostedFileBase image2 = (HttpPostedFileBase)Request.Files["img2"];
-            HttpPostedFileBase image3 = (HttpPostedFileBase)Request.Files["img3"];
-
-            ImgFormat format = null;
-
-
-            format = new ImgFormat(1, ImgFormatType.Spec, 140, 90);
-
-
-            if (image1 != null)
-            {
-                ImgUploadRet imgRet = ImgUtil.UploadImag(image1, format);
-                if (imgRet.IsSuc)
-                {
-                    result["img1"] = imgRet.GetImgUrl(1);
-                }
-            }
-            if (image2 != null)
-            {
-                ImgUploadRet imgRet = ImgUtil.UploadImag(image2, format);
-                if (imgRet.IsSuc)
-                {
-                    result["img2"] = imgRet.GetImgUrl(1);
-                }
-            }
-            if (image3 != null)
-            {
-                ImgUploadRet imgRet = ImgUtil.UploadImag(image3, format);
-                if (imgRet.IsSuc)
-                {
-                    result["img3"] = imgRet.GetImgUrl(1);
-                }
-            }
-
-            return Json(result);
-        }
 
 
         /// <summary>
@@ -491,5 +448,95 @@ namespace myplat.UIManage.Controllers
             return htmlString;
 
         }
+
+        /// <summary>
+        /// 上传图片
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult UploadImage()
+        {
+            HttpFileCollectionBase files = Request.Files;
+            // bool isWideImage = Request["Select_ImgShowType"] == "1";
+            Dictionary<string, string> result = new Dictionary<string, string>();
+            HttpPostedFileBase image1 = (HttpPostedFileBase)Request.Files["img1"];
+            HttpPostedFileBase image2 = (HttpPostedFileBase)Request.Files["img2"];
+            HttpPostedFileBase image3 = (HttpPostedFileBase)Request.Files["img3"];
+
+            ImgFormat format = null;
+
+
+            format = new ImgFormat(1, ImgFormatType.Spec, 140, 90);
+
+
+            if (image1 != null)
+            {
+                ImgUploadRet imgRet = ImgUtil.UploadImag(image1, format);
+                if (imgRet.IsSuc)
+                {
+                    result["img1"] = imgRet.GetImgUrl(1);
+                }
+            }
+            if (image2 != null)
+            {
+                ImgUploadRet imgRet = ImgUtil.UploadImag(image2, format);
+                if (imgRet.IsSuc)
+                {
+                    result["img2"] = imgRet.GetImgUrl(1);
+                }
+            }
+            if (image3 != null)
+            {
+                ImgUploadRet imgRet = ImgUtil.UploadImag(image3, format);
+                if (imgRet.IsSuc)
+                {
+                    result["img3"] = imgRet.GetImgUrl(1);
+                }
+            }
+
+            return Json(result);
+        }
+
+        [ValidateInput(false)]
+        [HttpPost]
+        public ActionResult UploadImageQiniu()
+        {
+            HttpFileCollectionBase files = Request.Files;
+            // bool isWideImage = Request["Select_ImgShowType"] == "1";
+            Dictionary<string, string> result = new Dictionary<string, string>();
+            HttpPostedFileBase image1 = (HttpPostedFileBase)Request.Files["img1"];
+            HttpPostedFileBase image2 = (HttpPostedFileBase)Request.Files["img2"];
+            HttpPostedFileBase image3 = (HttpPostedFileBase)Request.Files["img3"];
+
+            if (files.Count == 0)
+            {
+                return Json(new { msg = "没有图片" });
+            }
+
+            if (image1 != null)
+            {
+                string addr1 = "";
+                _QiniuImgBiz.UploadStream(image1.InputStream, image1.FileName, out addr1);
+                result["img1"] = addr1;
+            }
+            if (image2 != null)
+            {
+                string addr2 = "";
+                _QiniuImgBiz.UploadStream(image2.InputStream, image2.FileName, out addr2);
+                result["img2"] = addr2;
+            }
+            if (image3 != null)
+            {
+                string addr3 = "";
+                _QiniuImgBiz.UploadStream(image3.InputStream, image3.FileName, out addr3);
+                result["img3"] = addr3;
+            }
+
+            return Json(result);
+        }
+
+
+
+
+
     }
 }
