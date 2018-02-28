@@ -1,43 +1,51 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - 我的 ASP.NET 应用程序</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="applicable-device" content="mobile">
+    <meta content="telephone=no" name="format-detection" />
+    <meta content="email=no" name="format-detection" />
+    <meta name="description" content="@ViewBag.Des" />
+    <meta name="keywords" content="@ViewBag.Key" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/css/common.css" rel="stylesheet" />
+    <script src="~/Content/Js/jquery-2.1.4.js"></script>
+    @RenderSection("headInclude", required: false)
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("应用程序名称", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("主页", "Index", "Home")</li>
-                    <li>@Html.ActionLink("关于", "About", "Home")</li>
-                    <li>@Html.ActionLink("联系方式", "Contact", "Home")</li>
-                </ul>
-            </div>
-        </div>
+    <div style="display:none;">
+        <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://"); document.write(unescape("%3Cspan id='cnzz_stat_icon_1272983326'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1272983326' type='text/javascript'%3E%3C/script%3E"));</script>
+        @if (ViewBag.urlFrom == "other")
+        {
+            <script src="https://s22.cnzz.com/z_stat.php?id=1272983584&web_id=1272983584" language="JavaScript"></script>
+        }
+        else if (ViewBag.urlFrom == "singlemessage")
+        {
+            <script src="https://s22.cnzz.com/z_stat.php?id=1272983503&web_id=1272983503" language="JavaScript"></script>
+        }
+        else if (ViewBag.urlFrom == "timeline")
+        {
+            <script src="https://s13.cnzz.com/z_stat.php?id=1272983447&web_id=1272983447" language="JavaScript"></script>
+        }
+        else if (ViewBag.urlFrom == "groupmessage")
+        {
+            <script src="https://s13.cnzz.com/z_stat.php?id=1272983338&web_id=1272983338" language="JavaScript"></script>
+        }
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 应用程序</p>
-        </footer>
-    </div>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    @RenderBody()
+    <script>
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+            var regexS = "[\\?&]" + name + "=([^&#]*)";
+            var regex = new RegExp(regexS);
+            var results = regex.exec(window.location.search);
+            if (results == null || results == undefined)
+                return "";
+            else
+                return decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+    </script>
 </body>
 </html>
