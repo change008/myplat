@@ -1,6 +1,6 @@
 ﻿@using myplat.Entity
 @using myplat.UIWap.Models
-@Model Core
+@model Core
 @{
     ViewBag.Title = Model == null ? "今日精选" : Model.Title;
     var contentStr = string.Empty;
@@ -86,42 +86,15 @@
 
             <span class="report" style="color:#607fa6;float:right">
 
-                <a href="/home/reportpage?tid=@Model.Id&tt=文章&t=@Html.Raw(Model.Title)" style="color:#607fa6">
+                <a href="http://m.junshi.cn/home/reportpage?tid=2844430&tt=%E6%96%87%E7%AB%A0&t=%E4%BB%8E%E7%BE%8E%E5%9B%BD%E4%BC%A0%E6%9D%A5" style="color:#607fa6">
                     举报
                 </a>
             </span>
         </div>
+
         <article>
-            @if (Model.PageCount > 1 && Model.ContentList != null)
-            {
-                if (Model.ContentList.Count >= currentPage)
-                {
-                    contentStr = Model.ContentList[currentPage - 1];
-                }
-                else
-                {
-                    contentStr = "<p>完</p>";
-                }
-            }
-            else
-            {
-                contentStr = Model.OriginalContent;
-                if (!string.IsNullOrEmpty(contentStr) && Request.Url.Authority == "wxjx.yunbv.com")
-                {
-                    contentStr = contentStr.Replace("http://img.junqingtv.com", "https://img.junqingtv.com");
-                }
-            }
-            @if (string.IsNullOrEmpty(contentStr))
-            {
-                contentStr = Model.OriginalContent;
-                if (!string.IsNullOrEmpty(contentStr) && Request.Url.Authority == "wxjx.yunbv.com")
-                {
-                    contentStr = contentStr.Replace("http://img.junqingtv.com", "https://img.junqingtv.com");
-                }
-            }
 
-            @Html.Raw(contentStr)
-
+            @Html.Raw(Model.HContent)
 
 
             <div id="articlefooter" class="articlefooter"></div>
@@ -129,49 +102,26 @@
                     觉得不错，点击右上角推荐给朋友吧！
                 </div>*@
 
-            @if (!string.IsNullOrEmpty(Thread.Intro))
-            {
-                @*<div style="color:red;border:2px solid rgb(240,240,240);padding:5px;text-align:center;">
-                        <span style="font-size:13px;text-align:left;">@Thread.Intro</span>
-                        <br />
-                        <span style="color:black;font-size:15px;font-weight:600">@Regex.Replace(Thread.ThreadContent, @"<[^>]+>", string.Empty)</span>
-
-                            <br />
-                            <img src="http://img.junqingtv.com/d/2d/518d/origin/2518204_665x100.gif" style="width:100%;height:50px;margin-bottom:0px;" />
-                    </div>*@
-            }
-
             <div style="">
-                @if (!string.IsNullOrEmpty(Thread.Intro))
-                {
-                    @*<span class="report" style="margin-bottom:10px;color:#607fa6;float:left">
-                                <a href="@Thread.DirectUrl" style="color:#0052ff">
-                                    阅读原文
-                                </a>
-                        </span>*@
-                }
-
                 <span class="report" style="margin-bottom:10px;color:#607fa6;float:right">
-                    <a href="/home/reportpage?tid=@Model.Id&tt=文章&t=@Html.Raw(Model.Title)" style="color:#607fa6">
+                    <a href="http://m.junshi.cn/home/reportpage?tid=2844430&tt=%E6%96%87%E7%AB%A0&t=%E4%BB%8E%E7%BE%8E%E5%9B%BD%E4%BC%A0%E6%9D%A5" style="color:#607fa6">
                         举报
                     </a>
                 </span>
-
             </div>
         </article>
     </section>
 
     <div id="mainListContainer" style="background-color:#fff;">
         <h2 class="title-normal" style="font-size:16px;">
-            <span>下面的内容更精彩</span>
-            <img src="~/Content/image/arrow_jump.gif" style="width:20%;margin-bottom:-6px;height:25px;" />
+            <span>精选推荐</span>
         </h2>
-
     </div>
+
+
+
 </body>
 </html>
-<script src="~/Content/public002.js"></script>
-<script src="~/Content/Home/js/Detail001.js?t=2"></script>
 
 
 

@@ -44,6 +44,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\..\Assembly\Tiexue.Mobile.Assembly\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -148,14 +151,29 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TTApiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\InterfaceRealize.cs" />
+    <Compile Include="Models\ReportModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\ArtDetailed_Share.css" />
+    <Content Include="Content\css\common.css" />
+    <Content Include="Content\Home\css\Detail.css" />
+    <Content Include="Content\Home\css\index.css" />
+    <Content Include="Content\Home\css\reportPage.css" />
+    <Content Include="Content\Home\js\Detail001.js" />
+    <Content Include="Content\Home\js\index001.js" />
+    <Content Include="Content\image\arrow_jump.gif" />
+    <Content Include="Content\image\imageholder.jpg" />
+    <Content Include="Content\Js\jquery-2.1.4.js" />
+    <Content Include="Content\Js\shequn.js" />
+    <Content Include="Content\public002.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -190,18 +208,39 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Thread.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+    <Folder Include="Content\image\share_tp\" />
+    <Folder Include="Content\image\share_tt\" />
+    <Folder Include="Content\image\wxqun\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\myplat.Biz\myplat.Biz.csproj">
+      <Project>{48a6bff1-1b16-4449-9c81-270ed7dde94d}</Project>
+      <Name>myplat.Biz</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\myplat.Cache\myplat.Cache.csproj">
+      <Project>{8b22b580-8578-4db8-b4aa-d2284f03b7a2}</Project>
+      <Name>myplat.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\myplat.Entity\myplat.Entity.csproj">
+      <Project>{b45d0b79-390d-4348-80b2-329f1ed1e3e0}</Project>
+      <Name>myplat.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\myplat.Util\myplat.Util.csproj">
+      <Project>{5f861e94-52d6-45f2-896e-1aa1af85fcb3}</Project>
+      <Name>myplat.Util</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
