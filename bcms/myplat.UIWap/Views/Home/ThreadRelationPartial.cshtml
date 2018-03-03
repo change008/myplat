@@ -1,7 +1,67 @@
-﻿
+﻿@using myplat.Entity
+@using myplat.Util
+@using System.Text;
+@model List<Core>
 @{
-    ViewBag.Title = "ThreadRelationPartial";
+    var P = ViewData["FirstP"] == null ? 0 : (int)ViewData["FirstP"];
 }
 
-<h2>ThreadRelationPartial</h2>
+@for (int k = 0; k < Model.Count; k++)
+{
+    Core itemdata = Model[k];
 
+    string requestUrl = HttpContext.Current.Request.Url.Query;
+    string url = "/home/thread/" + itemdata.Id;
+
+    if (itemdata.ImgList.Count >= 3)
+    {
+        <section>
+            <a class="normal" href="@url">
+                <h2>@Html.Raw(itemdata.Title)</h2>
+                <div class="images-list-box">
+                    <ul>
+                        @for (int i = 0; i < 3; i++)
+                        {
+                            <li>
+                                <div class="image_container">
+                                    <img src="@itemdata.ImgList[i]" />
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+            </a>
+            <div class="item-info-box">
+                <span class="box-mr5">@itemdata.Author</span>
+                <span class="fa fa-comments-o box-mr5">@DateTimeUtil.FormatTimeDisplay(itemdata.ShowTime)</span>
+                <span class="fr">
+                    <a href="/home/reportpage?tid=@itemdata.Id&tt=相关文章&t=@itemdata.Title" style="color:#607fa6">举报</a>
+                </span>
+            </div>
+        </section>
+    }
+    else
+    {
+        <section>
+            <a class="normal" href="@url">
+                @if (itemdata.ImgList.Count > 0)
+                {
+                    <div class="single-img-box">
+                        <img src="@itemdata.ImgList[0]" />
+                    </div>
+                }
+                <h2>@Html.Raw(itemdata.Title)</h2>
+                <div class="clear"></div>
+
+            </a>
+            <div class="item-info-box box-pt5 clear">
+                <span class="box-mr5">@itemdata.Author</span>
+                <span class="fa fa-comments-o box-mr5">@DateTimeUtil.FormatTimeDisplay(itemdata.ShowTime)</span>
+                <span class="fr">
+                    <a href="/home/reportpage?tid=@itemdata.Id&tt=相关文章&t=@itemdata.Title" style="color:#607fa6">举报</a>
+                </span>
+            </div>
+        </section>
+    }
+}

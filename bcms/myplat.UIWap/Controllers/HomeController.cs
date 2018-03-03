@@ -52,7 +52,8 @@ namespace myplat.UIWap.Controllers
             }
 
             //获取更多相关文章逻辑
-            //var articleList = _CoreBiz.GetMoreArticleListById(id, 1, RowNumber);
+            var articleList = _CoreBiz.GetList(1, 10, "");
+            ViewBag.RelationList = articleList;
 
             //返回详情页面
             return View(model);
