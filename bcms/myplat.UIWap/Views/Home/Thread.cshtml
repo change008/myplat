@@ -4,6 +4,13 @@
 @{
     ViewBag.Title = Model == null ? "今日精选" : Model.Title;
     var contentStr = string.Empty;
+
+
+    ViewDataDictionary vdd = new ViewDataDictionary();
+    vdd.Add("FirstP", 1);
+
+    IEnumerable<Core> relationList = ViewBag.RelationList as IEnumerable<Core>;
+
 }
 
 <!DOCTYPE html>
@@ -116,9 +123,8 @@
         <h2 class="title-normal" style="font-size:16px;">
             <span>精选推荐</span>
         </h2>
+        @{ Html.RenderPartial("ThreadRelationPartial", relationList, vdd);}
     </div>
-
-
 
 </body>
 </html>
