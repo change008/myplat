@@ -12,6 +12,10 @@
 
     string requestUrl = HttpContext.Current.Request.Url.Query;
     string url = "/home/thread/" + itemdata.Id;
+    if (itemdata.Id == 0)
+    {
+        url = itemdata.RedirectLink;
+    }
 
     if (itemdata.ImgList.Count >= 3)
     {
@@ -22,9 +26,10 @@
                     <ul>
                         @for (int i = 0; i < 3; i++)
                         {
+                            string imgstr = @itemdata.ImgList[i] + "-common1";
                             <li>
                                 <div class="image_container">
-                                    <img src="@itemdata.ImgList[i]" />
+                                    <img src="@imgstr" />
                                 </div>
                             </li>
                         }
@@ -35,9 +40,7 @@
             <div class="item-info-box">
                 <span class="box-mr5">@itemdata.Author</span>
                 <span class="fa fa-comments-o box-mr5">@DateTimeUtil.FormatTimeDisplay(itemdata.ShowTime)</span>
-                <span class="fr">
-                    <a href="/home/reportpage?tid=@itemdata.Id&tt=相关文章&t=@itemdata.Title" style="color:#607fa6">举报</a>
-                </span>
+                
             </div>
         </section>
     }
@@ -47,8 +50,9 @@
             <a class="normal" href="@url">
                 @if (itemdata.ImgList.Count > 0)
                 {
+                    string imgstr = @itemdata.ImgList[0] + "-common1";
                     <div class="single-img-box">
-                        <img src="@itemdata.ImgList[0]" />
+                        <img src="@imgstr" />
                     </div>
                 }
                 <h2>@Html.Raw(itemdata.Title)</h2>
@@ -58,9 +62,7 @@
             <div class="item-info-box box-pt5 clear">
                 <span class="box-mr5">@itemdata.Author</span>
                 <span class="fa fa-comments-o box-mr5">@DateTimeUtil.FormatTimeDisplay(itemdata.ShowTime)</span>
-                <span class="fr">
-                    <a href="/home/reportpage?tid=@itemdata.Id&tt=相关文章&t=@itemdata.Title" style="color:#607fa6">举报</a>
-                </span>
+                
             </div>
         </section>
     }

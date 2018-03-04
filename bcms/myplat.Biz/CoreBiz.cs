@@ -66,7 +66,7 @@ namespace myplat.Biz
         /// <param name="pageSize"></param>
         /// <param name="strWhere"></param>
         /// <returns></returns>
-        public object GetList(int page, int pageSize, string strWhere)
+        public IEnumerable<Core> GetList(int page, int pageSize, string strWhere)
         {
             int startIndex, endIndex;
             startIndex = (page - 1) * pageSize + 1;
