@@ -12,10 +12,10 @@
 
     string requestUrl = HttpContext.Current.Request.Url.Query;
     string url = "/home/thread/" + itemdata.Id;
-    if (itemdata.Id == 0)
-    {
-        url = itemdata.RedirectLink;
-    }
+    //if (itemdata.Id == 0)
+    //{
+    //    url = itemdata.RedirectLink;
+    //}
 
     if (itemdata.ImgList.Count >= 3)
     {

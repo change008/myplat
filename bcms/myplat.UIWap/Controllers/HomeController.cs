@@ -45,6 +45,11 @@ namespace myplat.UIWap.Controllers
         [OutputCache(Duration = cacheDurationCommon, VaryByCustom = "*", Location = OutputCacheLocation.ServerAndClient)]
         public ActionResult Thread(int id = 0, int rowNum = 0, string umparam = "", int thread = 0)
         {
+            if (id == 0)
+            {
+                return Redirect("http://t.cn/REO9Wkz");
+            }
+
             var model = _CoreBiz.Get(id);
             if (model == null)
             {
@@ -62,7 +67,7 @@ namespace myplat.UIWap.Controllers
             adCore1.Title = "毕业到村里教书, 路上意外救起落水村妇, 她竟然..., 进村后惊呆了!";
             adCore1.Intro = "大学毕业被分配到欲女村教书,本来郁闷,路上却意外救起了落水少妇...";
             adCore1.ImgList = new List<string> { "http://p3tpsvuiu.bkt.clouddn.com/default/20180304201621069-731996565.png" };
-            adCore1.RedirectLink = "https://mp.weixin.qq.com/s/RgX0tSYxs0VdcaJeoM9pDg";
+            adCore1.RedirectLink = "";
 
             List<Core> relationListFinal = (List<Core>)articleList;
             relationListFinal.Insert(2, adCore1);
