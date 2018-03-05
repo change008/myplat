@@ -26,7 +26,7 @@ function getMoreArticlesForList() {
     var url = this.location.href;
     var viewName = url.substring(url.substring(0, url.indexOf('?')).lastIndexOf('/') + 1, url.substring(0, url.indexOf('?')).length);
     $.ajax({
-        url: "/Home/GetMoreArticlesForList?p=" + page,
+        url: "/Home/GetMoreCoreList?p=" + page,
         async: false,
         cache: true,
         success: function (data) {
@@ -47,9 +47,9 @@ function getMoreArticlesForList() {
                     }
                     if (viewName == '')
                     {
-                        viewName = "DetailClear";
+                        viewName = "Thread";
                     }
-                    var href = "/Home/" + viewName + "?id=" + obj[i].Id + "&RowNumber=" + obj[i].RowNumber + "&umparam=" + umparam;
+                    var href = "/Home/" + viewName + "/" + obj[i].Id + "?RowNumber=" + 1 + "&umparam=" + umparam;
                     html += '<li><a  href="' + href + '">'
                     if (imgUrl != '#') {
                         html += '   <img src="'

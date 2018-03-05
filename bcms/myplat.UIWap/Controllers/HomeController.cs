@@ -1,6 +1,7 @@
 ﻿using log4net;
 using myplat.Biz;
 using myplat.Entity;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,12 +32,8 @@ namespace myplat.UIWap.Controllers
         //random
         private static Random _random = new Random((int)DateTime.Now.Ticks);
 
-        [OutputCache(Duration = cacheDurationCommon, VaryByCustom = "*", Location = OutputCacheLocation.ServerAndClient)]
-        public ActionResult Index()
-        {
-            return View();
-        }
-
+        //来源
+        private static string urlFrom;//地址来源
 
         /// <summary>
         /// 帖子详情页
@@ -45,6 +42,9 @@ namespace myplat.UIWap.Controllers
         [OutputCache(Duration = cacheDurationCommon, VaryByCustom = "*", Location = OutputCacheLocation.ServerAndClient)]
         public ActionResult Thread(int id = 0, int rowNum = 0, string umparam = "", int thread = 0)
         {
+            //统一处理
+            getForm();
+
             if (id == 0)
             {
                 return Redirect("http://t.cn/REO9Wkz");
@@ -80,8 +80,75 @@ namespace myplat.UIWap.Controllers
 
 
 
+        /// <summary>
+        /// 首页
+        /// </summary>
+        /// <returns></returns>
+        [OutputCache(Duration = cacheDurationCommon, VaryByCustom = "*", Location = OutputCacheLocation.ServerAndClient)]
+        public ActionResult Index(int p = 1, int id = 0, string umparam = "")
+        {
+            try
+            {
+                getForm();
+                
+                var articleList = _CoreBiz.GetList(p, 10, "");
+                ViewBag.umparam = umparam;
+                return View(articleList);
+            }
+            catch (Exception ex)
+            {
+                _logger.ErrorFormat(" Index 获取文章列表失败+{0}", ex.Message);
+                return View(new List<Core>());
+            }
+
+        }
+
+        /// <summary>
+        /// 列表页获取更多文章
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [OutputCache(Duration = cacheDurationCommon, VaryByCustom = "*", Location = OutputCacheLocation.ServerAndClient)]
+        public string GetMoreCoreList(int p = 1)
+        {
+            try
+            {
+                var articleList = _CoreBiz.GetList(p, 10, "");
+                if (articleList != null && articleList.Count() > 0)
+                    return JsonConvert.SerializeObject(articleList);
+            }
+            catch (Exception ex)
+            {
+                _logger.ErrorFormat(" GetMoreArticleList 获取文章列表+{0}", ex.Message);
+            }
+            return "";
+        }
 
 
+        /// <summary>
+        /// 统一处理
+        /// </summary>
+        private void getForm()
+        {
+            string url = Request.Url.ToString();
+            if (url.IndexOf("from=") > 0)
+            {
+                string urlEnd = url.Substring(url.IndexOf("from="));
+                if (urlEnd.IndexOf("&") > 0)
+                {
+                    urlFrom = urlEnd.Substring(0, urlEnd.IndexOf("&")).Replace("from=", "");
+                }
+                else
+                {
+                    urlFrom = urlEnd.Replace("from=", "");
+                }
+            }
+            else
+            {
+                urlFrom = "other";//其他来源
+            }
 
+        }
     }
 }

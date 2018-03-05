@@ -1,10 +1,57 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using myplat.Entity;
+@model List<Core>
+@{
+    if (Model != null && Model.Count > 0)
+    {
+        ViewBag.Title = Model[0].Title;
+    }
 }
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link href="~/Content/Home/css/index.css" rel="stylesheet" />
+</head>
+<body>
+    <header>好文精选</header>
+    <section>
+        <ul class="articleList" id="mainulist">
+            @if (Model != null && Model.Count > 0)
+            {
+                int indexNum = 0;
+                var cnzzPush = string.Empty;
+                var imgUrl = string.Empty;
+                foreach (var item in Model)
+                {
+                    imgUrl = "~/Content/image/imageholder.jpg";
+                    if (item.ImgList != null && item.ImgList.Count > 0)
+                    {
+                        imgUrl = item.ImgList[0] + "-common1";
+                    }
+                    indexNum++;
+                    var href = "/Home/Thread/" + item.Id + "?RowNumber=" + indexNum + "&umparam=" + ViewBag.umparam;
+                    <li>
+                        <a href="@href">
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">hello world</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+                            @if (imgUrl != "~/Content/image/imageholder.jpg")
+                            {
+                                <img src='~/Content/image/imageholder.jpg' data-src="@imgUrl">
+                            }
 
+
+                            <h2>@item.Title</h2>
+                        </a>
+                    </li>
+                }
+            }
+            else
+            {
+                <li>没有文章</li>
+            }
+        </ul>
+    </section>
+    <footer>好文精选</footer>
+</body>
+</html>
+<script src="~/Content/public002.js"></script>
+<script src="~/Content/Home/js/index001.js?1"></script>
