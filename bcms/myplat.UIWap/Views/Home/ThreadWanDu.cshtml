@@ -1,0 +1,120 @@
+﻿@using myplat.Entity
+@using myplat.UIWap.Models
+@model Core
+@{
+    ViewBag.Title = Model == null ? "今日精选" : Model.Title;
+    var contentStr = string.Empty;
+
+
+    ViewDataDictionary vdd = new ViewDataDictionary();
+    vdd.Add("FirstP", 1);
+
+    IEnumerable<Core> relationList = ViewBag.RelationList as IEnumerable<Core>;
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link href="~/Content/Home/css/Detail.css" rel="stylesheet" />
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <script src="~/Content/Js/shequn.js?7"></script>
+    <link href="~/Content/css/ArtDetailed_Share.css" rel="stylesheet" />
+    <script>
+        $(document).ready(function () {
+
+
+            //分享
+            var imgUrl = "http://img.junqingtv.com/d/2d/798d/2798176_640x480_140x90.jpg";
+            var elems = document.getElementsByTagName("article")[0].getElementsByTagName("img");
+            if (elems.length > 0) {
+                imgUrl = elems[0].src;
+            }
+            baseUrl = document.location.href;
+            baseUrl = baseUrl.replace(/&page=\w{0,}/i, "")
+            baseUrl = baseUrl.replace(/&from=\w{0,}/i, "")
+            
+            //分享End
+
+            //$(".f_section").bind("click", function (event) {
+            //    //var Title = $(this).data("title");
+            //    console.log(1);
+            //    //_czc.push(['_trackEvent', 'weixin', 'click', Title]);
+            //});
+            $(".mp_img").bind("touchstart", function (event) {
+                timeout = setTimeout(function () {
+                    _czc.push(['_trackEvent', 'addfans', 'longTouch', '朋友圈']);
+                }, 900);
+            });
+
+            $(".mp_img").bind("touchend", function (event) {
+                clearTimeout(timeout);
+
+            });
+
+            $(".mp_img").bind("touchmove", function (event) {
+                clearTimeout(timeout);
+
+            });
+            $(".feverUrl").bind("touchstart", function (event) {
+                timeout = setTimeout(function () {
+                    _czc.push(['_trackEvent', 'addfans', 'longTouch', '公众号']);
+                }, 900);
+            });
+
+            $(".feverUrl").bind("touchend", function (event) {
+                clearTimeout(timeout);
+
+            });
+
+            $(".feverUrl").bind("touchmove", function (event) {
+                clearTimeout(timeout);
+
+            });
+        });
+        function titleClick() {
+            _czc.push(['_trackEvent', 'titleClick', 'click', '好文精选']);
+        }
+        function moreClick(index, title) {
+            _czc.push(['_trackEvent', 'moreClickIndex', 'click', index]);
+            _czc.push(['_trackEvent', 'moreClickTitle', 'click', title]);
+        }
+    </script>
+</head>
+<body style="background-color:#fff;">
+    <section class="sec box-articlecontainer">
+        <h2>@Html.Raw(Model.Title)</h2>
+        <input type="hidden" name="articleId" id="articleId" value="@Model.Id" />
+        <input type="hidden" name="RowNumber" id="RowNumber" value="@Html.Raw(ViewBag.RowNumber)" />
+        <div class="box-articleinfo">
+            <span>@Model.ShowTime.ToString("yyyy-MM-dd")</span>
+            <a href="/Home/Index" onclick="titleClick()">好文精选</a>
+        </div>
+
+        <article>
+
+            @Html.Raw(Model.HContent)
+
+
+            <div id="articlefooter" class="articlefooter"></div>
+            @*<div style="margin-bottom:10px;font-size:15px;">
+                    觉得不错，点击右上角推荐给朋友吧！
+                </div>*@
+        </article>
+    </section>
+
+    <div id="mainListContainer" style="background-color:#fff;">
+        <h2 class="title-normal" style="font-size:16px;">
+            <span>精选推荐</span>
+        </h2>
+        @{ Html.RenderPartial("ThreadRelationPartial", relationList, vdd);}
+    </div>
+
+</body>
+</html>
+
+<script src='http://js.zyrfanli.com/63873'></script>
+
+
+

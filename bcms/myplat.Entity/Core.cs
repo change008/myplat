@@ -148,9 +148,11 @@ namespace myplat.Entity
         /// 类型-普通类型
         /// </summary>
         public const int CoreType_Normal = 1;
+        public const int CoreType_NovelWanDu = 2;
         public static Dictionary<int, string> TypeList = new Dictionary<int, string>()
         {
-            { CoreType_Normal , "普通"}
+            { CoreType_Normal , "普通"},
+            { CoreType_NovelWanDu , "万读"}
         };
 
 
